@@ -5,7 +5,7 @@ LFLAGS = -static #-lgmp
 SOPT = #big_num.cpp
 
 CC = g++
-CFLAGS = -static -O6 -DNDEBUG #-pg
+CFLAGS = -static -O6 -DNDEBUG -Wno-write-strings #-pg
 
 RANLIB = ranlib
 AR = ar
