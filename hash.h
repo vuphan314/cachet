@@ -5,7 +5,7 @@
 
 //#include <linux/kernel.h>
 //#include <linux/sys.h>
-//#include <sys/sysinfo.h>
+#include <sys/sysinfo.h>
 
 #include "zchaff_header.h"
 #include "zchaff_base.h"
