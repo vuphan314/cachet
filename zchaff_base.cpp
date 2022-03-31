@@ -1,34 +1,34 @@
 /*********************************************************************
- Copyright 2000-2003, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2003, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
 
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark,  service mark, or the name of Princeton University. 
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark,  service mark, or the name of Princeton University.
 
 
- --- This software and any associated documentation is provided "as is" 
+ --- This software and any associated documentation is provided "as is"
 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -38,7 +38,7 @@
 
 //===================================================================
 void CLitPoolElement::dump(ostream & os)
-{ 
+{
     os << (var_sign()?" -":" +") << var_index();
     if (is_watched())
 	os << "*";
@@ -47,10 +47,10 @@ void CLitPoolElement::dump(ostream & os)
 //===================================================================
 
 void CClause::dump(ostream & os )
-{ 
-    if (status()==DELETED_CL) 
+{
+    if (status()==DELETED_CL)
 	os << "\t\t\t======removed=====";
-    for (int i=0, sz=num_lits(); i<sz; ++i) 
+    for (int i=0, sz=num_lits(); i<sz; ++i)
 	os << literal(i);
     os << endl;
 }
@@ -58,7 +58,7 @@ void CClause::dump(ostream & os )
 
 bool CClause::self_check(void)
 {
-    if (status() == UNKNOWN_CL) 
+    if (status() == UNKNOWN_CL)
 	return true;
     assert (num_lits() > 0);
     int watched = 0;
@@ -79,16 +79,16 @@ bool CVariable::self_check(void)
 	vector<CLitPoolElement *> & w = watched(i);
 	for (unsigned j=0; j< w.size(); ++j) {
 	    assert ( w[j]->is_watched() );
-	    assert ( (unsigned) w[j]->var_sign() == i ); 
+	    assert ( (unsigned) w[j]->var_sign() == i );
 	}
     }
     return true;
 }
 
-void CVariable::dump(ostream & os) 
+void CVariable::dump(ostream & os)
 {
     if (is_marked()) os << "*" ;
-    os << "V: " << _value << "  DL: " << _dlevel  << "  POS: "<< _assgn_stack_pos 
+    os << "V: " << _value << "  DL: " << _dlevel  << "  POS: "<< _assgn_stack_pos
        << "  Ante: " << _antecedent << endl;
     for (unsigned j=0; j< 2; ++j) {
 	os << (j==0?"WPos ":"WNeg ") <<  "(" ;
@@ -104,6 +104,6 @@ void CVariable::dump(ostream & os)
 	    os << lit_clause(j)[i] << "  " ;
 	os << ")" << endl;
     }
-#endif    
+#endif
     os << endl;
 }

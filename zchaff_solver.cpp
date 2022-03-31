@@ -1,30 +1,30 @@
 /*********************************************************************
- Copyright 2000-2003, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2003, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark, service mark, or the name of Princeton University. 
- --- This software and any associated documentation is provided "as is" 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark, service mark, or the name of Princeton University.
+ --- This software and any associated documentation is provided "as is"
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -34,7 +34,7 @@
 #include "stdio.h"
 //typedef double DOUBLE;
 //  extern "C" DOUBLE PLED_FindMaxFlow(int nvtxs, int nedges,
-//  				   int *edge_from, int *edge_to, 
+//  				   int *edge_from, int *edge_to,
 //  				   DOUBLE *ewts, int *part);
 //#define VERIFY_ON
 
@@ -83,7 +83,7 @@ void CSolver::re_init_stats(void)
     _stats.finish_cpu_time	= 0;
 }
 
-void CSolver::init_stats(void) 
+void CSolver::init_stats(void)
 {
     re_init_stats();
     _stats.been_reset		= true;
@@ -97,7 +97,7 @@ void CSolver::init_parameters(void)
     _params.verbosity				= 0;
     _params.time_limit				= 3600 * 48;		//2 days
     _params.decision.strategy 			= 0;
-    _params.decision.restart_randomness		= 0;	
+    _params.decision.restart_randomness		= 0;
     _params.decision.base_randomness		= 0;
     _params.decision.decay_period		= 512; // 1024 //0x100;
     _params.decision.bubble_init_step 		= 0x400;
@@ -115,15 +115,15 @@ void CSolver::init_parameters(void)
     //_params.cls_deletion.max_unrelevance	= 20;
     //_params.cls_deletion.min_num_lits		= 100;
     //_params.cls_deletion.max_conf_cls_size	= 5000;
-    _params.restart.enable			= false;	
+    _params.restart.enable			= false;
     _params.restart.first_restart		= 5000;
-    _params.restart.backtrack_incr		= 1500;		
+    _params.restart.backtrack_incr		= 1500;
     _params.restart.backtrack_incr_incr 	= 200;
 }
 
 CSolver::CSolver(void) {
 	//for (int i = 0; i < LEVEL_MAX; i++)
-	//	level_total_components[i] = level_new_components[i] 
+	//	level_total_components[i] = level_new_components[i]
 	//	= level_trivial[i] = level_conflicts[i] = level_hits[i] = 0;
     init_parameters();
     init_stats();
@@ -141,7 +141,7 @@ CSolver::CSolver(void) {
 	num_conflicts	= 0;
 	num_sat			= 0;
 	num_no_components = 0;
-    _dlevel			= 0;		
+    _dlevel			= 0;
     _force_terminate	= false;
     _implication_id		= 0;
     _num_marked			= 0;
@@ -187,9 +187,9 @@ CSolver::~CSolver()
     }
 }
 
-void CSolver::set_time_limit(float t) 
-{ 
-    _params.time_limit = t; 
+void CSolver::set_time_limit(float t)
+{
+    _params.time_limit = t;
 }
 
 void CSolver::set_BN_node(int BN_nodes)
@@ -228,7 +228,7 @@ void CSolver::set_max_entry(unsigned entry)
 void CSolver::set_oldest_entry(unsigned oldest)
 {
 	if (clean_limit == oldest_entry * 20)	// that means -l not set
-		clean_limit	= 20 * oldest;	
+		clean_limit	= 20 * oldest;
 	oldest_entry = oldest;
 }
 
@@ -308,7 +308,7 @@ void CSolver::assign_static_score()
 			variable(*itr).set_static_score(i);		// the smaller, the better
 	}
 	cout << "Assigning static scores done" << endl;
-	
+
 	//for (int i = 1; i < variables().size(); i++)
 	//	cout << variable(i)._static_score << " ";
 }
@@ -331,18 +331,18 @@ void CSolver::set_quiet_flag(bool q)
 }
 
 
-double CSolver::elapsed_cpu_time(void) 
+double CSolver::elapsed_cpu_time(void)
 {
     return get_cpu_time() - _stats.start_cpu_time;
 }
 
 double CSolver::cpu_run_time() // changed by sang, from float to double
-{ 
+{
     return (_stats.finish_cpu_time - _stats.start_cpu_time);
 }
 
-void CSolver::set_variable_number(int n) 
-{ 	
+void CSolver::set_variable_number(int n)
+{
     assert (num_variables() == 0);
     CDatabase::set_variable_number(n);
     _stats.num_free_variables	= num_variables();
@@ -376,7 +376,7 @@ void CSolver::set_variable_number(int n)
     assert (_assignment_stack.size() == num_variables() + 1);
 }
 
-int CSolver::add_variable(void) 
+int CSolver::add_variable(void)
 {
     int num = CDatabase::add_variable();
     ++_stats.num_free_variables;
@@ -396,7 +396,7 @@ int CSolver::add_variable(void)
 		_branch_infor_stack.back()->num_children_of_changed = 0;
 #else
 #ifdef FORMULA_CACHING	// added by sang
-		_formula_stack.push_back(new Component_value_pair);	
+		_formula_stack.push_back(new Component_value_pair);
 		_formula_stack.back()->value = -1;	// initialize formula sat probability to -1
 		_num_implication_stack.push_back(0);
 		_hash_index_stack.push_back(new Hashindex);
@@ -412,52 +412,52 @@ int CSolver::add_variable(void)
 }
 
 void CSolver::set_mem_limit(int s)
-{ 
-    CDatabase::set_mem_limit(s); 
+{
+    CDatabase::set_mem_limit(s);
 }
 
-void CSolver::set_decision_strategy(int s) 
+void CSolver::set_decision_strategy(int s)
 {
-    _params.decision.strategy = s; 
+    _params.decision.strategy = s;
 }
 
-void CSolver::enable_cls_deletion(bool allow) 
+void CSolver::enable_cls_deletion(bool allow)
 {
-    _params.cls_deletion.enable = allow; 
+    _params.cls_deletion.enable = allow;
 }
 
 void CSolver::set_cls_del_interval(int n)
 {
-    _params.cls_deletion.interval = n; 
+    _params.cls_deletion.interval = n;
 }
 
 // old functions for clause deletion
 /*
-void CSolver::set_max_unrelevance(int n ) 
+void CSolver::set_max_unrelevance(int n )
 {
-    _params.cls_deletion.max_unrelevance = n; 
+    _params.cls_deletion.max_unrelevance = n;
 }
 
-void CSolver::set_min_num_clause_lits_for_delete(int n) 
+void CSolver::set_min_num_clause_lits_for_delete(int n)
 {
-    _params.cls_deletion.min_num_lits = n; 
+    _params.cls_deletion.min_num_lits = n;
 }
 
-void CSolver::set_max_conflict_clause_length(int l) 
+void CSolver::set_max_conflict_clause_length(int l)
 {
-    _params.cls_deletion.max_conf_cls_size = l; 
+    _params.cls_deletion.max_conf_cls_size = l;
 }*/
 
-void CSolver::set_randomness(int n) 
+void CSolver::set_randomness(int n)
 {
-    _params.decision.base_randomness = n; 
+    _params.decision.base_randomness = n;
 }
 
 void CSolver::set_random_seed(int seed) {
     srand (seed);
 }
 
-void CSolver::add_hook( HookFunPtrT fun, int interval) 
+void CSolver::add_hook( HookFunPtrT fun, int interval)
 {
     pair<HookFunPtrT, int> a(fun, interval);
     _hooks.push_back(pair<int, pair<HookFunPtrT, int> > (0, a));
@@ -469,13 +469,13 @@ void CSolver::run_periodic_functions(void)
     /*if ( _params.cls_deletion.enable &&
 	 _stats.num_backtracks > _stats.next_cls_deletion) {
 	_stats.next_cls_deletion = _stats.num_backtracks + _params.cls_deletion.interval;
-	delete_unrelevant_clauses(); 
+	delete_unrelevant_clauses();
     }*/
 
 	if (_stats.num_active_added_conf_clauses > _stats.next_cls_deletion)// if there are too many learned clauses, remove some
 	{
 		_stats.next_cls_deletion += _params.cls_deletion.interval;	// check and delete clauses every 5000 clauses added
-		
+
 		/*cout << "before delete clauses: " << endl;
 		dump_assignment_stack();
 		dump_implication_queue();
@@ -483,8 +483,8 @@ void CSolver::run_periodic_functions(void)
 		dump_branchable_component_stack();
 		dump_branch_infor_stack();
 		dump_components(_components);*/
-		
-		delete_unrelevant_clauses(); 
+
+		delete_unrelevant_clauses();
 
 		/*cout << "after delete clauses: " << endl;
 		dump_assignment_stack();
@@ -497,20 +497,20 @@ void CSolver::run_periodic_functions(void)
 
 	 /*
     //b. restart
-    if (_params.restart.enable && 
+    if (_params.restart.enable &&
 	_stats.num_backtracks > _stats.next_restart) {
 	_stats.next_restart = _stats.num_backtracks + _stats.restart_incr;
 	_stats.restart_incr += _params.restart.backtrack_incr_incr;
 	restart();
-    } 
+    }
 	*/
     //c. update var stats for decision
-    if (_stats.num_decisions > _stats.next_var_score_decay) 
+    if (_stats.num_decisions > _stats.next_var_score_decay)
 	{
 		_stats.next_var_score_decay = _stats.num_decisions + _params.decision.decay_period;
 		//cout << "before decaying: num_conflicts = " << num_conflicts
 		//	 << ", num_sat = " << num_sat << endl;
-		//num_conflicts = num_conflicts >> 2;	
+		//num_conflicts = num_conflicts >> 2;
 		//num_sat = num_sat >> 2;
 		//cout << "after decaying: num_conflicts = " << num_conflicts
 		//	 << ", num_sat = " << num_sat << endl;
@@ -527,7 +527,7 @@ void CSolver::run_periodic_functions(void)
 	}
     }
 	*/
-} 
+}
 
 void CSolver::init_solve(void)
 {
@@ -541,13 +541,13 @@ void CSolver::init_solve(void)
     assert (_dlevel == 0);
     //for (unsigned i=0, sz = variables().size(); i< sz; ++i) {
 	if (dynamic_heuristic == VSIDS)
-		for (unsigned i=1, sz = variables().size(); i < sz; ++i) 
+		for (unsigned i=1, sz = variables().size(); i < sz; ++i)
 		{
 			variable(i).score(0) = variable(i).lits_count(0);
 			variable(i).score(1) = variable(i).lits_count(1);
 		}
 	else if (dynamic_heuristic == VSADS)
-		for (unsigned i=1, sz = variables().size(); i < sz; ++i) 
+		for (unsigned i=1, sz = variables().size(); i < sz; ++i)
 			variable(i).score(0) = variable(i).score(1) = 0;
 
     //_ordered_vars.resize( num_variables());
@@ -561,7 +561,7 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
     assert (value == 0 || value == 1);
     DBG2(dump());
     //CHECK(verify_integrity());
-    DBG1 (cout << "Setting\t" << (value>0?"+":"-") << v 
+    DBG1 (cout << "Setting\t" << (value>0?"+":"-") << v
 	  << " at " << dlevel() << " because " << ante<< endl;);
     CVariable & var = _variables[v];
     assert (var.value() == UNKNOWN);
@@ -575,7 +575,7 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
 				cout << "current branching component " << _branch_infor_stack[dlevel()]->gid
 					 << ", cross implication of var " << v
 					 << ", decisions = " << _stats.num_decisions << endl;
-			//--_num_implication_stack[dlevel()]; 
+			//--_num_implication_stack[dlevel()];
 			// put the cross-component-implication in the list for later check
 			cross_implication_list.push_back(new cross_implication);
 			cross_implication_list.back()->vid = v;
@@ -583,12 +583,12 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
 			cross_implication_list.back()->marked = false;
 			return;	// cross implications turned off
 		}
-		else 
-			++_num_implication_stack[dlevel()]; 
+		else
+			++_num_implication_stack[dlevel()];
 	*/
 	//}
-	//else 
-	//	++_num_implication_stack[dlevel()]; 
+	//else
+	//	++_num_implication_stack[dlevel()];
 
     var.set_dlevel(dl);
     var.set_value(value);
@@ -606,7 +606,7 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
 	cout << ")" << endl;
 	//cout << "before update all counter_one" << endl;
 	//for (int k=0; k<_stats.num_original_clause; ++k)
-	//	cout << "clause " << k << "'s counter_one: " 
+	//	cout << "clause " << k << "'s counter_one: "
 	//		 << clause(k).counter_one() << endl;
 #endif */
 	int sz;
@@ -615,7 +615,7 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
 		sz = var.lit_clause(0).size();
 		for (int i=0; i< sz; ++i)
 		{
-			//cout << "increment counter_one of clause " 
+			//cout << "increment counter_one of clause "
 			//	 << var.lit_clause(0)[i] << endl;
 			(clause(var.lit_clause(0)[i]).counter_one())++;
 			//if (clause(var.lit_clause(0)[i]).counter_one() == 1)
@@ -627,7 +627,7 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
 		sz = var.lit_clause(1).size();
 		for (int i=0; i< sz; ++i)
 		{
-			//cout << "increment counter_one of clause " 
+			//cout << "increment counter_one of clause "
 			//	 << var.lit_clause(1)[i] << endl;
 			(clause(var.lit_clause(1)[i]).counter_one())++;
 			//if (clause(var.lit_clause(1)[i]).counter_one() == 1)
@@ -637,21 +637,21 @@ void CSolver::set_var_value(int v, int value, ClauseIdx ante, int dl)
 #ifdef DEBUG_OUT
 	/*cout << "after update all counter_one" << endl;
 	for (int k=0; k<_stats.num_original_clause; ++k)
-		cout << "clause " << k << "'s counter_one: " 
+		cout << "clause " << k << "'s counter_one: "
 			 << clause(k).counter_one() << endl;*/
 #endif
 #endif
     if (dl == dlevel())
 	set_var_value_current_dl(v, value);
-    else 
+    else
 	set_var_value_not_current_dl(v, value);
 
-    ++_stats.num_implications ;	
-    if (var.is_branchable()) 
+    ++_stats.num_implications ;
+    if (var.is_branchable())
 	--num_free_variables();
 }
 
-void CSolver::set_var_value_current_dl(int v, int value) 
+void CSolver::set_var_value_current_dl(int v, int value)
 {
     vector<CLitPoolElement *> & watchs = variable(v).watched(value);
     for (vector <CLitPoolElement *>::iterator itr = watchs.begin(); itr != watchs.end(); ++itr) {
@@ -665,8 +665,8 @@ void CSolver::set_var_value_current_dl(int v, int value)
 	if (clause( watched->find_clause_index()).counter_one() > 1) // make the watched lit possible to move to 1
 		continue;	// added by sang, seems not good, because of added conflict clauses
 #endif
-	
-	int dir = watched->direction(); 
+
+	int dir = watched->direction();
 	CLitPoolElement * ptr = watched;
 	//if (v == 329)
 	//	cout << "got before while" << endl;
@@ -677,7 +677,7 @@ void CSolver::set_var_value_current_dl(int v, int value)
 		if (dir == 1) 	//reached the right end, i.e. spacing element is the cl_id
 		    cl_idx = ptr->get_clause_index();
 		if (dir == watched->direction()) { //we haven't go both directions.
-		    ptr = watched;	
+		    ptr = watched;
 		    dir = -dir;			//change direction, go the other way
 		    continue;
 		}
@@ -692,13 +692,13 @@ void CSolver::set_var_value_current_dl(int v, int value)
 			queue_implication(other_watched->s_var(), cl_idx, dlevel());
 			/*if (binary_search(var_set.begin(), var_set.end(), unit))
 				queue_implication(other_watched->s_var(), cl_idx, dlevel());
-			else if (cross_enabled)					
+			else if (cross_enabled)
 			{
 				//if (flag)
 				//cout << "branching component " << _branch_infor_stack[dlevel()]->gid
-				//	 << ", cross implication of var " << (other_watched->s_var() >> 1) 
+				//	 << ", cross implication of var " << (other_watched->s_var() >> 1)
 				//	 << ", decisions = " << _stats.num_decisions << endl;
-				bool found = false;	
+				bool found = false;
 				// check if this cross-implication has already been generated at this level
 				for (int i = cross_implication_list.size() - 1; i >= 0 ; --i)
 				{
@@ -712,7 +712,7 @@ void CSolver::set_var_value_current_dl(int v, int value)
 				}
 				if (!found)		// don't add the duplicate cross implication!
 				{
-					--_num_implication_stack[dlevel()]; 
+					--_num_implication_stack[dlevel()];
 					++_stats.num_cross_implications;
 					// put the cross-component-implication in the list for later check
 					cross_implication_list.push_back(new cross_implication);
@@ -721,7 +721,7 @@ void CSolver::set_var_value_current_dl(int v, int value)
 					cross_implication_list.back()->marked = false;
 					queue_implication(other_watched->s_var(), cl_idx, dlevel());
 				}
-			}*/				
+			}*/
 		}
 		break;
 	    }
@@ -749,18 +749,18 @@ void CSolver::set_var_value_current_dl(int v, int value)
 void CSolver::set_var_value_not_current_dl(int v, int value)
 {
 //the only difference between this one and the last function
-//is that because the assignment var is not at current_dl, 
-//(that means, < current_dl), it's possible some variable 
-//have a dlevel higher than the assigned one. So, we need 
+//is that because the assignment var is not at current_dl,
+//(that means, < current_dl), it's possible some variable
+//have a dlevel higher than the assigned one. So, we need
 //to make sure that watched literal has the highest dlevel if
 //we can't find other unassigned or value 1 literals
-//also, it's possible we need to readjust decision levels of 
+//also, it's possible we need to readjust decision levels of
 //some variables implied.
     ClauseIdx cl_idx;
     CLitPoolElement * watched, * other_watched, * ptr, * max_ptr = NULL;
     int dir,max_dl;
     vector<CLitPoolElement *> & watchs = variable(v).watched(value);
-    for (vector <CLitPoolElement *>::iterator itr = watchs.begin(); 
+    for (vector <CLitPoolElement *>::iterator itr = watchs.begin();
 	 itr != watchs.end(); ++itr) {
 	max_dl = -1;
 	watched = *itr;
@@ -775,7 +775,7 @@ void CSolver::set_var_value_not_current_dl(int v, int value)
 	while(1) {
 	    ptr += dir;
 	    if (ptr->val() <= 0) {
-		if (dir == 1) 
+		if (dir == 1)
 		    cl_idx = ptr->get_clause_index();
 		if (dir == watched->direction()) {
 		    ptr = watched;
@@ -798,11 +798,11 @@ void CSolver::set_var_value_not_current_dl(int v, int value)
 		int the_value = literal_value (*other_watched);
 		if (the_value == 0) {
 		    //it's a conflict, but we will not put into _conflicts
-		    //instead, make it a implication so it will be resolved 
+		    //instead, make it a implication so it will be resolved
 		    //in deduce()
 		    assert (variable(other_watched->var_index()).dlevel() >= max);
-//  		    cout << "Queueing Conflict for " << other_watched->var_index() << " orig DL: " 
-//  			 << variable(other_watched->var_index()).dlevel() << " current DL: " 
+//  		    cout << "Queueing Conflict for " << other_watched->var_index() << " orig DL: "
+//  			 << variable(other_watched->var_index()).dlevel() << " current DL: "
 //  			 << max << endl;
 		    queue_implication(other_watched->s_var(), cl_idx, max);
 		}
@@ -811,7 +811,7 @@ void CSolver::set_var_value_not_current_dl(int v, int value)
 		    if (variable(v1).dlevel() > max)
 			queue_implication(other_watched->s_var(), cl_idx, max);
 		}
-		else 
+		else
 		    queue_implication (other_watched->s_var(), cl_idx, max);
 		break;
 	    }
@@ -849,7 +849,7 @@ void CSolver::unset_var_value(int v)
     CVariable & var = variable(v);
 #ifdef KEEP_LIT_CLAUSES
 	int sz;
-	if (var.value() == 1) 
+	if (var.value() == 1)
 	{
 		sz = var.lit_clause(0).size();
 		for (int i=0; i< sz; ++i)
@@ -894,7 +894,7 @@ int CSolver::find_max_clause_dlevel(ClauseIdx cl)
 //of -1 because if clause has single literal, then the
 //loop will found no literal with value UNKNOWN
     int max_level = 0;
-    if (cl == NULL_CLAUSE) 
+    if (cl == NULL_CLAUSE)
 	return dlevel();
     for (unsigned i=0, sz= clause(cl).num_lits(); i<sz;  ++i) {
 	int var_idx =((clause(cl).literals())[i]).var_index();
@@ -903,12 +903,12 @@ int CSolver::find_max_clause_dlevel(ClauseIdx cl)
 		max_level =  _variables[var_idx].dlevel();
 	}
     }
-    return max_level; 
+    return max_level;
 }
 
 void CSolver::dump_assignment_stack(ostream & os ) {
     cout << "Assignment Stack:  " << endl;
-    for (int i=0; i<= dlevel(); ++i) 
+    for (int i=0; i<= dlevel(); ++i)
 	{
 		cout << "(" <<i << ":";
 		if (_assignment_stack[i]->size() > 0)
@@ -917,7 +917,7 @@ void CSolver::dump_assignment_stack(ostream & os ) {
 				 << ((*_assignment_stack[i])[0] >> 1);
 			if (variable((*_assignment_stack[i])[0] >> 1).tried_both())
 			cout << "* ";
-		else 
+		else
 			cout << " ";
 		}
 		for (unsigned j=1; j<(_assignment_stack[i])->size(); ++j )
@@ -928,7 +928,7 @@ void CSolver::dump_assignment_stack(ostream & os ) {
     cout << endl;
 }
 
-void CSolver::dump_implication_queue(ostream & os) 
+void CSolver::dump_implication_queue(ostream & os)
 {
     _implication_queue.dump(os);
 	cout << endl;
@@ -939,7 +939,7 @@ void CSolver::delete_clause_group (int gid)
     assert( is_gid_allocated(gid) );
     //if (_stats.been_reset==false)
 	reset(); //if delete some clause, then implication queue are invalidated
-    for (vector<CClause>::iterator itr1 = clauses().begin(); 
+    for (vector<CClause>::iterator itr1 = clauses().begin();
 	 itr1 != clauses().end(); ++itr1) {
 	CClause & cl = * itr1;
 	if (cl.status() != DELETED_CL) {
@@ -949,14 +949,14 @@ void CSolver::delete_clause_group (int gid)
 	}
     }
     //delete the index from variables
-    for (vector<CVariable>::iterator itr = variables().begin(); 
+    for (vector<CVariable>::iterator itr = variables().begin();
 	 itr != variables().end(); ++ itr) {
 	for (int i=0; i<2; ++i) { //for each phase
 	    //delete the lit index from the vars
 /*#ifdef KEEP_LIT_CLAUSES
 	    vector<ClauseIdx> & lit_clauses = (*itr).lit_clause(i);
 	    for (vector<ClauseIdx>::iterator itr1 = lit_clauses.begin();
-		 itr1 != lit_clauses.end(); ++ itr1) 
+		 itr1 != lit_clauses.end(); ++ itr1)
 		if ( clause(*itr1).status() == DELETED_CL ) {
 		    *itr1 = lit_clauses.back();
 		    lit_clauses.pop_back();
@@ -965,8 +965,8 @@ void CSolver::delete_clause_group (int gid)
 #endif*/
 	    //delete the watched index from the vars
 	    vector<CLitPoolElement *> & watched = (*itr).watched(i);
-	    for (vector<CLitPoolElement *>::iterator itr1 = watched.begin(); 
-		 itr1 != watched.end(); ++itr1) 
+	    for (vector<CLitPoolElement *>::iterator itr1 = watched.begin();
+		 itr1 != watched.end(); ++itr1)
 		if ( (*itr1)->val() <= 0) {
 		    *itr1 = watched.back();
 		    watched.pop_back();
@@ -994,7 +994,7 @@ void CSolver::reset(void)
 }
 
 
-// old version 
+// old version
 /*
 void CSolver::delete_unrelevant_clauses(void)
 {
@@ -1012,7 +1012,7 @@ void CSolver::delete_unrelevant_clauses(void)
 		_params.cls_deletion.max_conf_cls_size = 50;
 	    DBG1(
 		cout << "Forced to be more aggressive in clause deletion. " << endl;
-		cout <<"MaxUnrel: " << _params.cls_deletion.max_unrelevance 
+		cout <<"MaxUnrel: " << _params.cls_deletion.max_unrelevance
 		<< "  MinLenDel: " << _params.cls_deletion.min_num_lits
 		<< "  MaxLenCL : " << _params.cls_deletion.max_conf_cls_size << endl;
 		);
@@ -1021,25 +1021,25 @@ void CSolver::delete_unrelevant_clauses(void)
     unsigned original_del_cls = num_deleted_clauses();
 //    int original_del_lits = num_deleted_literals();
     DBG2 (dump());
-    for (vector<CClause>::iterator itr1 = clauses().begin(); 
+    for (vector<CClause>::iterator itr1 = clauses().begin();
 	 itr1 != clauses().end(); ++itr1) {
 	CClause & cl = * itr1;
 	if (cl.status()!=CONFLICT_CL || cl.num_lits() < _params.cls_deletion.min_num_lits ) continue;
 	int val_0_lits = 0, val_1_lits = 0, unknown_lits = 0;
 	for (unsigned i=0; i< cl.num_lits(); ++i) {
 	    int lit_value = literal_value (cl.literal(i));
-	    if (lit_value == 0 ) 
+	    if (lit_value == 0 )
 		++val_0_lits;
-	    else if (lit_value == 1) 
+	    else if (lit_value == 1)
 		++val_1_lits;
-	    else 
+	    else
 		++unknown_lits;
 	    if (unknown_lits + val_1_lits > (int)_params.cls_deletion.max_unrelevance) {
 		mark_clause_deleted(cl);
 		DBG1(cout << "Deleting Unrelevant clause: " << cl << endl;);
 		break;
 	    }
-	    if (cl.num_lits() > _params.cls_deletion.max_conf_cls_size && 
+	    if (cl.num_lits() > _params.cls_deletion.max_conf_cls_size &&
 		(unknown_lits+val_1_lits > 1) ) { //to make sure it's not generating an implication
 				//and it's not an antecedent for other var assignment
 		mark_clause_deleted(cl);
@@ -1050,14 +1050,14 @@ void CSolver::delete_unrelevant_clauses(void)
     }
     if (original_del_cls == num_deleted_clauses()) return;
     //delete the index from variables
-    for (vector<CVariable>::iterator itr = variables().begin(); 
+    for (vector<CVariable>::iterator itr = variables().begin();
 	 itr != variables().end(); ++ itr) {
 	for (unsigned i=0; i<2; ++i) { //for each phase
 	    //delete the lit index from the vars
 #ifdef KEEP_LIT_CLAUSES
 	    vector<ClauseIdx> & lit_clauses = (*itr).lit_clause(i);
 	    for (vector<ClauseIdx>::iterator itr1 = lit_clauses.begin();
-		 itr1 != lit_clauses.end(); ++ itr1) 
+		 itr1 != lit_clauses.end(); ++ itr1)
 		if ( clause(*itr1).status() == DELETED_CL ) {
 		    *itr1 = lit_clauses.back();
 		    lit_clauses.pop_back();
@@ -1066,7 +1066,7 @@ void CSolver::delete_unrelevant_clauses(void)
 #endif
 	    //delete the watched index from the vars
 	    vector<CLitPoolElement *> & watched = (*itr).watched(i);
-	    for (vector<CLitPoolElement *>::iterator itr1 = watched.begin(); 
+	    for (vector<CLitPoolElement *>::iterator itr1 = watched.begin();
 		 itr1 != watched.end(); ++itr1) {
 		if ( (*itr1)->val() <= 0) {
 		    *itr1 = watched.back();
@@ -1092,7 +1092,7 @@ void CSolver::delete_unrelevant_clauses(void)
 	if (++CDatabase::_stats.mem_used_up_counts < 5) {
 	    DBG1(
 		cout << "Forced to be more aggressive in clause deletion. " << endl;
-		cout <<"MaxUnrel: " << _params.cls_deletion.max_unrelevance 
+		cout <<"MaxUnrel: " << _params.cls_deletion.max_unrelevance
 		<< "  MinLenDel: " << _params.cls_deletion.min_num_lits
 		<< "  MaxLenCL : " << _params.cls_deletion.max_conf_cls_size << endl;
 		);
@@ -1111,8 +1111,8 @@ void CSolver::delete_unrelevant_clauses(void)
 	//assert(cl.status()!=ORIGINAL_CL);
 	//if(cl.status()==ORIGINAL_CL)
 	//	continue;
-    //bool cls_sat_at_dl_0=false;	
-	if(cl.status()!=DELETED_CL){ 
+    //bool cls_sat_at_dl_0=false;
+	if(cl.status()!=DELETED_CL){
 	    /*for (int i=0, sz=cl.num_lits(); i<sz; ++i){
 	        if (literal_value(cl.literal(i)) == 1 && variable(cl.literal(i).var_index()).dlevel()==0) {
         	    cls_sat_at_dl_0=true;
@@ -1124,35 +1124,35 @@ void CSolver::delete_unrelevant_clauses(void)
 		//if(cl.status()==ORIGINAL_CL || cl.status()==CONFLICT_CL){
 		if(cl.status()==CONFLICT_CL){	// changed by sang, ORIGINAL clauses should not be deleted
 		    // deleting ORIGINAL clauses can change the initial starting value for VSIDS..
-		    // deleting CONFLICT clauses will avoid future calls to is_satisfied on these clauses	
+		    // deleting CONFLICT clauses will avoid future calls to is_satisfied on these clauses
 		    int val_0_lits = 0, val_1_lits = 0, unknown_lits = 0;
 		    for (unsigned i=0; i< cl.num_lits(); ++i) {
 		        int lit_value = literal_value (cl.literal(i));
 		        if (lit_value == 0 )
 		   	    ++val_0_lits;
-			if (lit_value == 1) 
+			if (lit_value == 1)
 			    ++val_1_lits;
-			if (lit_value == UNKNOWN) 
-		            ++unknown_lits; 	
-			if (unknown_lits+val_1_lits > 1 ) { 
+			if (lit_value == UNKNOWN)
+		            ++unknown_lits;
+			if (unknown_lits+val_1_lits > 1 ) {
 			    mark_clause_deleted(cl);
 			    break;
-			}			
+			}
                     }
 		    continue;	// if i didn't delete it now, i wont later either
 		}
-		
+
 	    }
 	}
         if (cl.status()!=CONFLICT_CL ) {
             continue;
         }
-        
+
         count++;
 	int max_activity=_params.cls_deletion.head_activity-(_params.cls_deletion.head_activity-_params.cls_deletion.tail_activity)*count/num_conf_cls;
 	int max_conf_cls_size;//=_params.cls_deletion.head_num_lits+(_params.cls_deletion.tail_num_lits-_params.cls_deletion.head_num_lits)*count/num_conf_cls;
-	
-		
+
+
 	if(head_count>0){
 	    //max_activity=_params.cls_deletion.head_activity;
 	    max_conf_cls_size=_params.cls_deletion.head_num_lits;
@@ -1175,39 +1175,39 @@ void CSolver::delete_unrelevant_clauses(void)
       	int val_0_lits = 0, val_1_lits = 0, unknown_lits = 0,lit_value;
 	for (unsigned i=0; i< cl.num_lits(); ++i) {
 	    lit_value = literal_value (cl.literal(i));
-	    if (lit_value == 0 ) 
+	    if (lit_value == 0 )
 		++val_0_lits;
-	    else if (lit_value == 1) 
+	    else if (lit_value == 1)
 		++val_1_lits;
 	    else
 		++unknown_lits;
 	    if ((unknown_lits>max_conf_cls_size)){
-		if((unknown_lits+val_1_lits > 1 )) { 
+		if((unknown_lits+val_1_lits > 1 )) {
 		    mark_clause_deleted(cl);
 		    DBG1 (cout << "Deleting Large clause: " << cl << endl;);
 		}
 	        else{
 		// IF THIS ASSERTION FAILS, and we are just after restart, this tells us a var ought to be assigned
 		    assert((dlevel()!=0) || ( unknown_lits!=0 && unknown_lits!=1));
-		//    cout<<" SKIP - "<<unknown_lits<<' '<<val_1_lits<<endl;	
+		//    cout<<" SKIP - "<<unknown_lits<<' '<<val_1_lits<<endl;
 	        }
 		break;
             }
         }
     }
     // if none were recently marked for deletion...
-    if (original_del_cls == num_deleted_clauses()) 
+    if (original_del_cls == num_deleted_clauses())
         return;
-    
+
     //delete the index from variables
-    for (vector<CVariable>::iterator itr = variables().begin(); 
+    for (vector<CVariable>::iterator itr = variables().begin();
 	 itr != variables().end(); ++ itr) {
 	for (unsigned i=0; i<2; ++i) { //for each phase
 	    //delete the lit index from the vars
 #ifdef KEEP_LIT_CLAUSES
 	    vector<ClauseIdx> & lit_clauses = (*itr).lit_clause(i);
 	    for (vector<ClauseIdx>::iterator itr1 = lit_clauses.begin();
-		 itr1 != lit_clauses.end(); ++ itr1) 
+		 itr1 != lit_clauses.end(); ++ itr1)
 		if ( clause(*itr1).status() == DELETED_CL ) {
 		    *itr1 = lit_clauses.back();
 		    lit_clauses.pop_back();
@@ -1216,7 +1216,7 @@ void CSolver::delete_unrelevant_clauses(void)
 #endif
 	    //delete the watched index from the vars
 	    vector<CLitPoolElement *> & watched = (*itr).watched(i);
-	    for (vector<CLitPoolElement *>::iterator itr1 = watched.begin(); 
+	    for (vector<CLitPoolElement *>::iterator itr1 = watched.begin();
 		 itr1 != watched.end(); ++itr1) {
 		if ( (*itr1)->val() <= 0) {
 		    *itr1 = watched.back();
@@ -1227,7 +1227,7 @@ void CSolver::delete_unrelevant_clauses(void)
 	}
     }
 
-    /*for (unsigned i=1; i<variables().size(); ++i) 
+    /*for (unsigned i=1; i<variables().size(); ++i)
 	{
 		if(variable(i).dlevel()!=0)
 		{
@@ -1244,7 +1244,7 @@ void CSolver::delete_unrelevant_clauses(void)
 		}
 		else
 		{
-			variable(i).score(0)=variable(i).score(1)=0;	
+			variable(i).score(0)=variable(i).score(1)=0;
 		}
     }*/
     // update_var_score(); commented out by sang
@@ -1256,7 +1256,7 @@ void CSolver::delete_unrelevant_clauses(void)
 
 
 //============================================================================================
-bool CSolver::time_out(void) 
+bool CSolver::time_out(void)
 {
     return (get_cpu_time() - _stats.start_cpu_time> _params.time_limit);
 }
@@ -1274,7 +1274,7 @@ void CSolver::adjust_variable_order(int * lits, int n_lits) //note lits are sign
 	}
 /*
 	int new_score = var.score();
-	if (orig_score == new_score) 
+	if (orig_score == new_score)
 	    continue;
 	int pos = var.var_score_pos();
 	int orig_pos = pos;
@@ -1282,7 +1282,7 @@ void CSolver::adjust_variable_order(int * lits, int n_lits) //note lits are sign
 	assert (_ordered_vars[pos].first == & var);
 	assert (_ordered_vars[pos].second == orig_score);
 
-	//next we bubble up the position, because the score can 
+	//next we bubble up the position, because the score can
 	//increase by at most 1, this is valid.
 /* this is a linear search */
 //  	while (pos > 0) {
@@ -1327,7 +1327,7 @@ void CSolver::adjust_variable_order(int * lits, int n_lits) //note lits are sign
 	});
 */
 }
-void CSolver::decay_variable_score(void) 
+void CSolver::decay_variable_score(void)
 {
     unsigned int i, sz;
     for(i=1, sz = variables().size(); i<sz; ++i) {
@@ -1340,8 +1340,8 @@ void CSolver::decay_variable_score(void)
     for (i=0, sz = _ordered_vars.size(); i<sz; ++i) {
 	_ordered_vars[i].second = _ordered_vars[i].first->score();
 /*  	assert (i==0 || _ordered_vars[i].second <= _ordered_vars[i-1].second );
-	assert ( _ordered_vars[i].first->value() != UNKNOWN || 
-	!_ordered_vars[i].first->is_branchable() || 
+	assert ( _ordered_vars[i].first->value() != UNKNOWN ||
+	!_ordered_vars[i].first->is_branchable() ||
 	_max_score_pos <= i); */
     }
 }
@@ -1351,7 +1351,7 @@ bool CSolver::decide_next_branch(void)
     if (!_implication_queue.empty()) {
 	//some hook function did a decision, so skip my own decision making.
 	//if the front of implication queue is 0, that means it's finished
-	//because var index start from 1, so 2 *vid + sign won't be 0. 
+	//because var index start from 1, so 2 *vid + sign won't be 0.
 	//else it's a valid decision.
 	return (_implication_queue.front().lit != 0);
     }
@@ -1400,14 +1400,14 @@ bool CSolver::decide_next_branch(void)
 				{
 					unset_var_value((* vitr) >> 1);
 					assignments.erase(vitr);
-					--vitr;					
+					--vitr;
 				}
 			}	// end if
 		}	// end for
 	}	// end if
 	/*if (flag)	// for debug
 	{
-		cout << "decision " << _stats.num_decisions << " at level " << dlevel() 
+		cout << "decision " << _stats.num_decisions << " at level " << dlevel()
 			 << ", in decide_next_branch, branch_component = " << gid << endl;
 		cout << "component " << gid << " is " << (_component_infor_stack[gid]->changed? "changed":"unchanged") << endl;
 		dump_assignment_stack();
@@ -1453,18 +1453,18 @@ bool CSolver::decide_next_branch(void)
 		backlevel = percolate_up(satprob, gid);
 #else
 		backlevel = percolate_up(1, gid);
-#endif	
+#endif
 		//if (flag)
 		//	cout << "percolate_up(1, " << gid << ")" << " to level " << backlevel << endl;
 	}
-	else 
+	else
 	{
 		_stats.num_total_components += new_components;
 		//if (dlevel() < LEVEL_MAX)
 		//	level_total_components[dlevel()] += new_components;
 		//else
 		//	level_total_components[LEVEL_MAX] += new_components;
-			
+
 		if (new_components > 1)
 		{
 			//if (dlevel() < LEVEL_MAX)
@@ -1493,7 +1493,7 @@ bool CSolver::decide_next_branch(void)
 			//	cout << "processing component " << pos + 1 << endl;
 			//	check each new component to see if its value is trival, if so, percolate up
 			if (_component_infor_stack[++pos]->num_clause == 1)
-			{				
+			{
 				_stats.num_trivial_components++;
 				//if (dlevel() < LEVEL_MAX)
 				//	level_trivial[dlevel()]++;
@@ -1508,7 +1508,7 @@ bool CSolver::decide_next_branch(void)
 				satprob.zero_flag = false;
 				satprob.denominator = size;
 				mpz_set_ui(satprob.numerator, (1 << size) - 1);	// (2^n - 1)/(2^n)
-#else	
+#else
 				satprob = 1;
 				//vector<int> & literals = *(*itr)->comp_val_pair->f[0];
 				vector<int> & literals = (*itr)->comp_val_pair->f;
@@ -1566,8 +1566,8 @@ bool CSolver::decide_next_branch(void)
 				itr = pre;
 				//sat_prob = cached_value;		// problem here!
 				//if (flag)
-				//	cout << "_component_infor_stack[" << pos << "] already in cache[" 
-				//		 << hash_index << "], with value = " << satprob 
+				//	cout << "_component_infor_stack[" << pos << "] already in cache["
+				//		 << hash_index << "], with value = " << satprob
 				//		 << ", component " << pos << " set to inactive and removed from _components" << endl;
 #ifdef BIG_NUM
 				int temp = satprob.zero_flag;
@@ -1586,7 +1586,7 @@ bool CSolver::decide_next_branch(void)
 					// this component is unsat, according to the cached value -1
 					if (backlevel <= 0)
 					{
-					//	//cout << "there is a UNSAT component at level " << backlevel 
+					//	//cout << "there is a UNSAT component at level " << backlevel
 					//	//	 << ", that means the original formula cannot be satisfied" << endl;
 						return false;
 					}
@@ -1608,7 +1608,7 @@ bool CSolver::decide_next_branch(void)
 							last_branch = (*_assignment_stack[backlevel])[0];
 							vid = last_branch >> 1;
 							bool tried_both = variable(vid).tried_both();
-					
+
 							while (tried_both && (--backlevel > 0))
 							{
 								last_branch = (*_assignment_stack[backlevel])[0];
@@ -1617,7 +1617,7 @@ bool CSolver::decide_next_branch(void)
 							}	// end while
 						}
 						if ((backlevel <= 0))// variables on level 0 can never be flipped
-						{	
+						{
 						// backtracked to level 0, still no decision variable can be flipped, the whole search space done
 							//if (flag)
 							//	cout << "variables on level 0 can't be flipped, whole search space done" << endl;
@@ -1631,7 +1631,7 @@ bool CSolver::decide_next_branch(void)
 						int branch_compoent = _branch_infor_stack[backlevel]->gid;
 						back_track(backlevel);		//	backtrack to the proper level
 						// note: dlevel()==backlevel-1 now! so need to increment dlevel() in the following
-		
+
 						while (!_implication_queue.empty())
 							_implication_queue.pop();
 						queue_implication(last_branch ^ 0x1, NULL_CLAUSE, ++dlevel()); // flip last_branch
@@ -1640,7 +1640,7 @@ bool CSolver::decide_next_branch(void)
 						return true;
 					}	// end else (backlevel <= _uni_phased_size)
 			} // end if in_hash_table
-			else 
+			else
 			{
 				// store the hash index of the current component, to avoid future re-computation
 				_component_infor_stack[pos]->hash_index = hash_index;
@@ -1679,10 +1679,10 @@ bool CSolver::decide_next_branch(void)
 				//if (_component_infor_stack[comp_i]->num_clause/_component_infor_stack[comp_i]->var_set->size()
 				//	> _component_infor_stack[comp_j]->num_clause/_component_infor_stack[comp_j]->var_set->size())
 				{
-					//cout << "component " << comp_i << "(" << _component_infor_stack[comp_i]->num_clause 
+					//cout << "component " << comp_i << "(" << _component_infor_stack[comp_i]->num_clause
 					//	 << "/" << _component_infor_stack[comp_i]->var_set->size()
-					//	 << ") and component " << comp_j 
-					//	 << "(" << _component_infor_stack[comp_j]->num_clause 
+					//	 << ") and component " << comp_j
+					//	 << "(" << _component_infor_stack[comp_j]->num_clause
 					//	 << "/" << _component_infor_stack[comp_j]->var_set->size()
 					//	 << ") need to be swapped "<< endl;
 
@@ -1711,7 +1711,7 @@ bool CSolver::decide_next_branch(void)
 		branch_component = _branchable_component_stack.back();
 		_branchable_component_stack.pop_back();		// pop the branch component from stack
 		Component_information * comp_infor = _component_infor_stack[branch_component];
-		
+
 		if (cross_enabled)
 		{
 			vector<int> & var_set = * comp_infor->var_set;
@@ -1756,12 +1756,12 @@ bool CSolver::decide_next_branch(void)
 			//if (flag)
 			//	cout << "at level " << dlevel() << " with " << _stats.num_decisions << " decisions, "
 			//		 << "component " << branch_component << " changed by "
-			//		 << _component_infor_stack[branch_component]->num_cross_implications 
+			//		 << _component_infor_stack[branch_component]->num_cross_implications
 			//		 << " cross_implications" << endl;
 			if (_assignment_stack[dlevel()]->size() > 0)	// increment dlevel() only when last component unchanged
 			{
 				//if (flag)
-				//	cout << "_assignment_stack[" << dlevel() << "]->size = " 
+				//	cout << "_assignment_stack[" << dlevel() << "]->size = "
 				//		 << _assignment_stack[dlevel()]->size() << ", ++dlevel()" << endl;
 				++dlevel();	// bug! if tow components changed in a row, could cause problems
 			}
@@ -1771,12 +1771,12 @@ bool CSolver::decide_next_branch(void)
 			return true;
 		}
 		}	// end if (cross_enabled)
-		
+
 		s_var = comp_infor->largest_svar;	// choose the largest_degree var to branch
 		_component_infor_stack[comp_infor->ancestor_index]->branched_child_list.push_back(branch_component);
 		//if (flag)
 		//	cout << "at level " << dlevel()+1 << ", decision made, s_var: " << s_var << " = "
-		//		 << ((s_var & 0x1) ? '-' : '+') << (s_var >>1) 
+		//		 << ((s_var & 0x1) ? '-' : '+') << (s_var >>1)
 		//		 << ", which belongs to component " << branch_component << endl;
 	}
 	if (s_var == 0)
@@ -1804,7 +1804,7 @@ bool CSolver::decide_next_branch(void)
 			tried_both = variable(vid).tried_both();
 		}	// end while
 		if ((backlevel == 0)) // variables on level 0 can never be flipped
-		{	
+		{
 			return false;	// whole search space done
 		}	// end if
 		back_track(backlevel);		//	backtrack to the proper level
@@ -1822,7 +1822,7 @@ bool CSolver::decide_next_branch(void)
 	if (! _component_infor_stack[_branch_infor_stack[dlevel()]->gid]->changed)
 	{
 		//if (flag)
-		//	cout << "at level " << dlevel() << ", branching component " 
+		//	cout << "at level " << dlevel() << ", branching component "
 		//		 << _branch_infor_stack[dlevel()]->gid << " unchanged, ++dlevel" << endl;
 		++dlevel();		// check if the parent of current component has been changed by cross implications
 	}
@@ -1831,7 +1831,7 @@ bool CSolver::decide_next_branch(void)
 
 	++_stats.num_decisions;	// a real decision made here
 	//cout << "num of decisions: " << _stats.num_decisions << endl;
-    if (dlevel() > _stats.max_dlevel) 
+    if (dlevel() > _stats.max_dlevel)
 	_stats.max_dlevel = dlevel();
     DBG0 (cout << "**Decision " << _stats.num_decisions << " at Level " << dlevel() ;
 	  cout <<": " << s_var << "\ti.e. " << (s_var&0x1?"-":" ") ;
@@ -1845,7 +1845,7 @@ bool CSolver::decide_next_branch(void)
 		dump_branchable_component_stack();
 		dump_cross_implications();
 		dump_branch_infor_stack();
-		dump_components(_components);	
+		dump_components(_components);
 		exit(0);
 	}*/
     queue_implication(s_var, NULL_CLAUSE, dlevel());
@@ -1854,7 +1854,7 @@ bool CSolver::decide_next_branch(void)
     return true;
 }
 
-int CSolver::preprocess(void) 
+int CSolver::preprocess(void)
 {
 	touched.resize(num_variables() + 1, 0);
 	var_score.resize((num_variables() + 1) << 1, 0);
@@ -1899,7 +1899,7 @@ int CSolver::preprocess(void)
 				var.largest_degree = degree[1];
 				var.largest_svar = (v << 1) + 1;
 			}
-			else 
+			else
 			{
 				var.largest_degree = degree[0];
 				var.largest_svar = v << 1;
@@ -1925,9 +1925,9 @@ int CSolver::preprocess(void)
 	for (int v = 1; v <= var_size; ++v)
 		var_set[v-1] = v;
 	//	var_set.insert(v);
-	
+
     //3. Unit clauses
-    for (i=0, sz=clauses().size(); i<sz; ++i) 
+    for (i=0, sz=clauses().size(); i<sz; ++i)
 	{
 	if (clause(i).status()!=DELETED_CL)
 	    if (clause(i).num_lits() == 1)
@@ -1947,15 +1947,15 @@ int CSolver::preprocess(void)
 #ifdef VERIFY_ON
 	for (i=1; i< variables().size(); ++i) {
 	    if (variable(i).value() != UNKNOWN) {
-		assert (variable(i).dlevel() <= 0); 
+		assert (variable(i).dlevel() <= 0);
 		int ante = variable(i).antecedent();
 		int ante_id = 0;
 		if (ante >= 0) {
 		    ante_id = clause(ante).id();
-		    verify_out << "VAR: " << i 
+		    verify_out << "VAR: " << i
 			       << " L: " << variable(i).assgn_stack_pos()
-			       << " V: " << variable(i).value() 
-			       << " A: " << ante_id 
+			       << " V: " << variable(i).value()
+			       << " A: " << ante_id
 			       << " Lits:";
 		    for (unsigned j=0; j< clause(ante).num_lits(); ++j)
 			verify_out <<" " <<  clause(ante).literal(j).s_var();
@@ -2067,7 +2067,7 @@ ClauseIdx CSolver::add_clause_with_gid (int * lits, int n_lits, int gid, bool or
 {	// function signature changed by sang, original added
     assert (dlevel() >= 0);
     unsigned gflag;
-    if (gid == PERMANENT_GID ) 
+    if (gid == PERMANENT_GID )
 	gflag = 0;
     else if (gid == VOLATILE_GID)
 	gflag = (~0x0);
@@ -2088,13 +2088,13 @@ ClauseIdx CSolver::add_conflict_clause (int * lits, int n_lits, int gflag)
 	ClauseIdx cid;
 
 	// if (_stats.num_active_added_conf_clauses % 100 == 0)
-	//	cout << "Active added conflict clauses: " 
+	//	cout << "Active added conflict clauses: "
 
 	//a. clause deletion
-	//if (_stats.num_active_added_conf_clauses > _stats.next_cls_deletion 
+	//if (_stats.num_active_added_conf_clauses > _stats.next_cls_deletion
 	//	&& _params.cls_deletion.enable) {
 	//_stats.next_cls_deletion = _stats.num_active_added_conf_clauses + _params.cls_deletion.interval;
-	//delete_unrelevant_clauses(); 
+	//delete_unrelevant_clauses();
     //}
 	//num_conflicts++;
 	if (_stats.num_active_added_conf_clauses >= bound)
@@ -2105,13 +2105,13 @@ ClauseIdx CSolver::add_conflict_clause (int * lits, int n_lits, int gflag)
 		//if (_stats.num_active_added_conf_clauses > _stats.next_cls_deletion)// if there are too many learned clauses, remove some
 		//{
 		//	_stats.next_cls_deletion += 5000;	// check and delete clauses every 5000 clauses added
-		//	delete_unrelevant_clauses(); 
+		//	delete_unrelevant_clauses();
 		//}
 		//dump_components(_components);
 		//char c = getchar();
 	}
 #ifdef STOP_ADDED_CLAUSE
-	//cout << "_stats.num_active_added_conf_clauses: " 
+	//cout << "_stats.num_active_added_conf_clauses: "
 	//	 << _stats.num_active_added_conf_clauses << endl;
 	if (_stats.num_active_added_conf_clauses >= ADDED_CL_MAX -1) // added by sang
 	{
@@ -2156,7 +2156,7 @@ ClauseIdx CSolver::add_conflict_clause (int * lits, int n_lits, int gflag)
 //#endif
 		}
 	}
-	else 
+	else
 	{
 		cid = add_clause( lits, n_lits, gflag);
 		_stats.num_active_added_conf_clauses++;
@@ -2189,10 +2189,10 @@ void CSolver::real_solve(void)
 
     while(1) {
 	run_periodic_functions();
-	if (decide_next_branch()) 
+	if (decide_next_branch())
 	{
-	    while (deduce()==CONFLICT) 
-		{ 
+	    while (deduce()==CONFLICT)
+		{
 			int blevel = analyze_conflicts();
 			if (blevel < 0)
 			{
@@ -2208,19 +2208,19 @@ void CSolver::real_solve(void)
 	    _stats.outcome = SATISFIABLE;
 	    return;
 	}
-	if (time_out()) { 
+	if (time_out()) {
 	    _stats.outcome = TIME_OUT;
-	    return; 
+	    return;
 	}
-	if (_force_terminate) { 
+	if (_force_terminate) {
 	    _stats.outcome = ABORTED;
-	    return; 
+	    return;
 	}
 	if (_stats.is_mem_out) {
 	    _stats.outcome = MEM_OUT;
 	    cout << "memory out in real_solve(), mem-usage: " << mem_usage() << endl; // added by sang
-	    return; 
-	}	    
+	    return;
+	}
     }
 }
 
@@ -2231,11 +2231,11 @@ int CSolver::solve(void)
 	hashtable = new CHashTable(cache_size, max_entry, oldest_entry, clean_limit);	// added by sang
 	hashtable->quiet = quiet;	// control output
 
-	//preprocess 
+	//preprocess
 	DBG1(dump_assignment_stack(););
 
 	_stats.outcome = preprocess();
-	if(_stats.outcome == CONFLICT) 
+	if(_stats.outcome == CONFLICT)
 	    _stats.outcome = UNSATISFIABLE;
 	else if (_stats.outcome == SAT)//the real search
 		_stats.outcome = SATISFIABLE;
@@ -2346,9 +2346,9 @@ int CSolver::solve(void)
 			else if (_stats.num_unit_clause > 0)	// the original formula contains severl components, value already divided in percolate_up
 			{
 				//cout << "j = 1, _stats.num_unit_clause = " << _stats.num_unit_clause << endl;
-				j = 1;			
+				j = 1;
 			}
-			
+
 			mpz_mul_2exp(_stats.num_solutions,
 					_component_infor_stack[0]->left_sat_prob.numerator,
 					num_variables() - _component_infor_stack[0]->left_sat_prob.denominator
@@ -2367,14 +2367,14 @@ int CSolver::solve(void)
 #else
 		if (_component_infor_stack[0]->left_sat_prob > 0)
 			final_prob = _component_infor_stack[0]->left_sat_prob;
-		else 
+		else
 			final_prob = _component_infor_stack[1]->sat_probability;
 		if (final_prob < 0)
 		{
 			final_prob = 0;
 			num_solutions = 0;
 		}
-		else 
+		else
 			for(num_solutions = final_prob; i < num_variables(); ++i)
 				num_solutions = num_solutions + num_solutions;
 		//cout << "Number of solutions\t\t\t" << num_solutions << endl;
@@ -2408,7 +2408,7 @@ void CSolver::far_back_track(int blevel)
 {
 	/*if (flag)
 	{
-		cout << "in far_back_track, decision " << _stats.num_decisions << " at level " 
+		cout << "in far_back_track, decision " << _stats.num_decisions << " at level "
 			 << dlevel() << ", blevel = " << blevel << endl;
 		dump_assignment_stack();
 		dump_branch_infor_stack();
@@ -2433,8 +2433,8 @@ void CSolver::far_back_track(int blevel)
 			break;
 	}
 
-    //for (int i = dlevel(); i >= blevel-1 && i > 0; --i) 
-	for (int i = dlevel(); i >= blevel-1; --i) 
+    //for (int i = dlevel(); i >= blevel-1 && i > 0; --i)
+	for (int i = dlevel(); i >= blevel-1; --i)
 	{
 		vector<int> & assignments = *_assignment_stack[i];
 		Component_information * comp_infor = _component_infor_stack[_branch_infor_stack[i]->gid];
@@ -2446,7 +2446,7 @@ void CSolver::far_back_track(int blevel)
 			{
 				_branchable_component_stack.push_back(_branch_infor_stack[i]->gid);	// bug fixed!
 				//if (flag)
-				//	cout << "component " << _branch_infor_stack[i]->gid 
+				//	cout << "component " << _branch_infor_stack[i]->gid
 				//		 << " pushed back to _branchable_component_stack" << endl;
 			}
 
@@ -2497,10 +2497,10 @@ void CSolver::far_back_track(int blevel)
 			{
 				_branchable_component_stack.push_back(top);
 				//if (flag)
-				//	cout << "changed component " << _branch_infor_stack[i]->gid 
+				//	cout << "changed component " << _branch_infor_stack[i]->gid
 				//		 << " pushed back to _branchable_component_stack" << endl;
 #ifndef BIG_NUM
-				changed_component->right_sat_prob = changed_component->left_sat_prob 
+				changed_component->right_sat_prob = changed_component->left_sat_prob
 												  = changed_component->sat_probability = -3;
 #else
 				changed_component->left_sat_prob.zero_flag = 1;
@@ -2540,13 +2540,13 @@ void CSolver::far_back_track(int blevel)
 				assignments.clear();
 			}
 		}
-		
+
 		int k = _branch_infor_stack[i]->num_new_children + _branch_infor_stack[i+1]->num_children_of_changed;
 		/*if (flag)
 		{
 			cout << "when backtracking level " << i << ", " << k << " components to remove" << endl;
 			cout << "_branch_infor_stack[i]->num_new_children = " << _branch_infor_stack[i]->num_new_children
-				 << ", _branch_infor_stack[i+1]->num_children_of_changed = " 
+				 << ", _branch_infor_stack[i+1]->num_children_of_changed = "
 				 << _branch_infor_stack[i+1]->num_children_of_changed << endl;
 		}*/
 		_branch_infor_stack[i+1]->num_children_of_changed = 0;	// reset it!
@@ -2560,7 +2560,7 @@ void CSolver::far_back_track(int blevel)
 			if (_component_infor_stack.back()->active)
 			{
 				//if (flag)
-				//	cout << "removing active component " << _component_infor_stack.size()-1 
+				//	cout << "removing active component " << _component_infor_stack.size()-1
 				//		 << " from component_infor_stack" << endl;
 				Components::iterator & itr = _component_infor_stack.back()->comp_itr;
 				// remove cached children of the current component first
@@ -2601,10 +2601,10 @@ void CSolver::far_back_track(int blevel)
 				_components.erase(itr);
 			}	// end if active
 			//else if (flag)
-			//	cout << "removing inactive component " << _component_infor_stack.size()-1 
+			//	cout << "removing inactive component " << _component_infor_stack.size()-1
 			//		 << " from component_infor_stack" << endl;
 			delete _component_infor_stack.back();
-			_component_infor_stack.pop_back();		
+			_component_infor_stack.pop_back();
 		}	// end for
 		_branch_infor_stack[i]->num_new_children = 0; // this must be reset each time backtracking
 		_branch_infor_stack[i + 1]->num_children_of_changed = 0;	// bug removed! (i -> i+1)
@@ -2613,7 +2613,7 @@ void CSolver::far_back_track(int blevel)
 	}	// end for
 
     dlevel() = blevel - 1;
-    if (dlevel() < 0 ) 
+    if (dlevel() < 0 )
 	dlevel() = 0;
     ++_stats.num_backtracks;
 }
@@ -2652,7 +2652,7 @@ void CSolver::back_track(int blevel)
 	_component_infor_stack[_branch_infor_stack[blevel]->gid]->num_cached_children = 0;
 	_component_infor_stack[_branch_infor_stack[blevel]->gid]->branched_child_list.clear();
 
-    for (int i=dlevel(); i>= blevel; --i) 
+    for (int i=dlevel(); i>= blevel; --i)
 	{
 		_num_implication_stack[i] = 0; // reset number of implications of the level, added by sang
 		vector<int> & assignments = *_assignment_stack[i];
@@ -2671,13 +2671,13 @@ void CSolver::back_track(int blevel)
 			}
 			assignments.clear();
 		}
-		
+
 		int k = _branch_infor_stack[i]->num_new_children + _branch_infor_stack[i+1]->num_children_of_changed;
 		/*if (flag)
 		{
 			cout << "when backtracking level " << i << ", " << k << " components to remove" << endl;
 			cout << "_branch_infor_stack[i]->num_new_children = " << _branch_infor_stack[i]->num_new_children
-				 << ", _branch_infor_stack[i+1]->num_children_of_changed = " 
+				 << ", _branch_infor_stack[i+1]->num_children_of_changed = "
 				 << _branch_infor_stack[i+1]->num_children_of_changed << endl;
 		}*/
 		_branch_infor_stack[i+1]->num_children_of_changed = 0;	// reset it!
@@ -2694,7 +2694,7 @@ void CSolver::back_track(int blevel)
 					if (_component_infor_stack.size() - 1 == _branchable_component_stack.back())
 					{
 						_branchable_component_stack.pop_back();	// update _branchable_component_stack
-						//cout << "matched! component " << _component_infor_stack.size() - 1 
+						//cout << "matched! component " << _component_infor_stack.size() - 1
 						//	 << " removed from _branchable_component_stack " << endl;
 						//dump_branchable_component_stack();
 					}
@@ -2715,7 +2715,7 @@ void CSolver::back_track(int blevel)
 				_components.erase(itr);
 			}	// end if active
 			delete _component_infor_stack.back();
-			_component_infor_stack.pop_back();		
+			_component_infor_stack.pop_back();
 		}	// end for
 		_branch_infor_stack[i]->num_new_children = 0; // this must be reset each time backtracking
 		_branch_infor_stack[i + 1]->num_children_of_changed = 0;	// bug removed! (i -> i+1)
@@ -2723,14 +2723,14 @@ void CSolver::back_track(int blevel)
 		_branch_infor_stack[i + 1]->gid = 0; // this must be reset each time backtracking
 	}	// end for
     dlevel() = blevel - 1;
-    if (dlevel() < 0 ) 
+    if (dlevel() < 0 )
 	dlevel() = 0;
     ++_stats.num_backtracks;
     DBG2 (dump());
     //CHECK(verify_integrity());
 }
 
-int CSolver::deduce(void) 
+int CSolver::deduce(void)
 {
     while (!_implication_queue.empty() && _conflicts.size()==0) {
 	DBG2(dump_implication_queue(););
@@ -2756,7 +2756,7 @@ int CSolver::deduce(void)
 	    //note: literal & 0x1 == 1 means the literal is in negative phase
 	    //when a conflict occure at not current dlevel, we need to backtrack
 	    //to resolve the problem.
-	    //conflict analysis will only work if the conflict occure at 
+	    //conflict analysis will only work if the conflict occure at
 	    //the top level (current dlevel)
 	    if (dl == dlevel()) {
 		_conflicts.push_back(cl);
@@ -2771,18 +2771,18 @@ int CSolver::deduce(void)
 		if (orig_dl > dl) {
 		    //in this case, backtrack to orig_dl level, and do the implication need to be done
 		    while (!_implication_queue.empty()) {
-			if (_implication_queue.front().dlevel < orig_dl ) 
+			if (_implication_queue.front().dlevel < orig_dl )
 			    still_valid.push_back(_implication_queue.front());
 			_implication_queue.pop();
 		    }
-		    for (unsigned i=0; i< still_valid.size(); ++i) 
+		    for (unsigned i=0; i< still_valid.size(); ++i)
 			_implication_queue.push(still_valid[i]);
 		    back_track(orig_dl);
 		    set_var_value(vid, !(lit&0x1), cl, dl);
 		    var.assgn_stack_pos() = _assignment_stack[dl]->size();
 		    _assignment_stack[dl]->push_back(lit);
 		}
-		else { 
+		else {
 		    assert (orig_dl == dl);
 		    //in this case, backtrack to that dlevel and it's a conflict clause
 		    back_track(orig_dl + 1);
@@ -2804,13 +2804,13 @@ int CSolver::deduce(void)
 	}
     }	// end while
     //if loop exited because of a conflict, we need to clean implication queue
-    while(!_implication_queue.empty()) 
+    while(!_implication_queue.empty())
 	_implication_queue.pop();
     return (_conflicts.size()?CONFLICT:NO_CONFLICT);
 }
 
-void CSolver::verify_integrity(void) 
-{	
+void CSolver::verify_integrity(void)
+{
     for (unsigned i=1; i< variables().size(); ++ i) {
 	if (variable(i).value() != UNKNOWN) {
 	    int pos = variable(i).assgn_stack_pos();
@@ -2826,7 +2826,7 @@ void CSolver::verify_integrity(void)
 	int num_0 = 0;
 	int num_1 = 0;
 	int num_unknown = 0;
-	int watched[2]; 
+	int watched[2];
 	int watch_index = 0;
 	watched[1] = watched[0] = 0;
 	for (unsigned j=0; j< cl.num_lits(); ++j) {
@@ -2837,7 +2837,7 @@ void CSolver::verify_integrity(void)
 	    else {
 		if (literal_value(lit) == 0)
 		    ++ num_0;
-		else 
+		else
 		    ++ num_1;
 	    }
 	    if (lit.is_watched()) {
@@ -2879,7 +2879,7 @@ void CSolver::mark_vars_of_dl(vector<int> & lits, int dl)
     DBG1(
 	cout << "The Lits involved are : " << endl;
 	for (unsigned i=0; i< lits.size(); ++i) {
-	    cout << "V: " << (lits[i] & 0x1 ? "-":"+") << (lits[i] >> 1) << ": " 
+	    cout << "V: " << (lits[i] & 0x1 ? "-":"+") << (lits[i] >> 1) << ": "
 		 << variable(lits[i]>>1);
 	}
 	cout << endl << endl;
@@ -2906,12 +2906,12 @@ void CSolver::mark_vars_of_dl(vector<int> & lits, int dl)
 void CSolver::mark_vars_at_level(ClauseIdx cl, int var_idx, int dl)
 {
     assert (_resolvents.empty() || var_idx != -1);
-#ifdef VERIFY_ON	
+#ifdef VERIFY_ON
     _resolvents.push_back(clause(cl).id());
 #endif
     for (CLitPoolElement * itr = clause(cl).literals(); (*itr).val() > 0 ; ++ itr) {
 	int v = (*itr).var_index();
-	if (v == var_idx) 
+	if (v == var_idx)
 	    continue;
 	else if (variable(v).dlevel() == dl) {
 	    if (!variable(v).is_marked()) {
@@ -2926,7 +2926,7 @@ void CSolver::mark_vars_at_level(ClauseIdx cl, int var_idx, int dl)
 		variable(v).set_new_cl_phase((*itr).var_sign());
 		_conflict_lits.push_back((*itr).s_var());
 	    }
-	    else //if this variable is already in the new clause, it must have the same phase 
+	    else //if this variable is already in the new clause, it must have the same phase
 		assert(variable(v).new_cl_phase() == (*itr).var_sign());
 	}
     }
@@ -2937,12 +2937,12 @@ void CSolver::mark_vars_at_level(ClauseIdx cl, int var_idx, int dl)
 void CSolver::mark_vars_at_level(ClauseIdx cl, int var_idx, int dl)
 {
     assert (_resolvents.empty() || var_idx != -1);
-#ifdef VERIFY_ON	
+#ifdef VERIFY_ON
     _resolvents.push_back(clause(cl).id());
 #endif
     for (CLitPoolElement * itr = clause(cl).literals(); (*itr).val() > 0 ; ++ itr) {
 	int v = (*itr).var_index();
-	if (v == var_idx) 
+	if (v == var_idx)
 	    continue;
 	else if (variable(v).dlevel() == dl) {
 	    if (!variable(v).is_marked()) {
@@ -2963,7 +2963,7 @@ void CSolver::mark_vars_at_level(ClauseIdx cl, int var_idx, int dl)
 		    _conflict_lits.push_back((*itr).s_var());
                 }
 	    }
-	    else //if this variable is already in the new clause, it must have the same phase 
+	    else //if this variable is already in the new clause, it must have the same phase
 		assert(variable(v).new_cl_phase() == (*itr).var_sign());
 	}
     }
@@ -2977,7 +2977,7 @@ int CSolver::analyze_conflicts(void) {
     if (dlevel() != 0)
 		assert (_conflicts.size() > 0);
 	//else assert(_stats.num_solutions > 0);
-    assert(_conflict_lits.size() == 0); 
+    assert(_conflict_lits.size() == 0);
     assert (_implication_queue.empty());
     assert (_num_marked == 0);
     DBG1(dump_assignment_stack());
@@ -2986,15 +2986,15 @@ int CSolver::analyze_conflicts(void) {
 #ifdef VERIFY_ON
 	for (unsigned i=1; i< variables().size(); ++i) {
 	    if (variable(i).value() != UNKNOWN) {
-		assert (variable(i).dlevel() <= 0); 
+		assert (variable(i).dlevel() <= 0);
 		int ante = variable(i).antecedent();
 		int ante_id = 0;
 		if (ante >= 0) {
 		    ante_id = clause(ante).id();
-		    verify_out << "VAR: " << i 
+		    verify_out << "VAR: " << i
 			       << " L: " << variable(i).assgn_stack_pos()
-			       << " V: " << variable(i).value() 
-			       << " A: " << ante_id 
+			       << " V: " << variable(i).value()
+			       << " A: " << ante_id
 			       << " Lits:";
 		    for (unsigned j=0; j< clause(ante).num_lits(); ++j)
 			verify_out << " " << clause(ante).literal(j).s_var();
@@ -3067,7 +3067,7 @@ int CSolver::analyze_conflicts(void) {
 		_conflicts.clear();
 		return back_dl;
 	}	// end else (_stats.num_active_added_conf_clauses < max_num_learned_clause)
-	
+
 	//	Added by sang--end
 
 // #endif //STOP_ADDED_CLAUSE
@@ -3082,15 +3082,15 @@ int CSolver::finish_add_conf_clause(int gflag)
     int unit_lit = -1;
 
 	//cout << "in finish_add_conflict_clause: " << endl;
-	ClauseIdx added_cl = 
+	ClauseIdx added_cl =
 		add_conflict_clause(&(*_conflict_lits.begin()), _conflict_lits.size(), gflag);
 	//cout << "num_clause: " << clauses().size() << endl;
     if (added_cl < 0 ) { //memory out.
 	_stats.is_mem_out = true;
 	_conflicts.clear();
 	assert (_implication_queue.empty());
-	return 1; 
-    }    
+	return 1;
+    }
 #ifdef VERIFY_ON
     verify_out << "CL: " <<  clause(added_cl).id() << " <=";
     for (unsigned i=0; i< _resolvents.size(); ++i)
@@ -3108,7 +3108,7 @@ int CSolver::finish_add_conf_clause(int gflag)
 			 << "in finish_add_conf_clause: " << endl;
 		//cout << "num of added clauses: " << _stats.num_active_added_conf_clauses << endl;
 		//if (added_cl > 131000)
-		cout << "Added Clause " <<added_cl<< " : "<<clause(added_cl); 
+		cout << "Added Clause " <<added_cl<< " : "<<clause(added_cl);
 		dump_assignment_stack();
 		cout << "************************" << endl;
 		//dump_branch_infor_stack();
@@ -3126,14 +3126,14 @@ int CSolver::finish_add_conf_clause(int gflag)
 	assert (literal_value(clause(added_cl).literal(i)) == 0);
 
 	int dl = variable(vid).dlevel();
-	if ( dl < dlevel()) {	
-	    if (dl > second_max)	//	naming changed by sang 
+	if ( dl < dlevel()) {
+	    if (dl > second_max)	//	naming changed by sang
 		second_max = dl;
 	}
 	else {
 	    assert (unit_lit == -1);
-	    unit_lit = vid + vid + sign; 
-	}	// end else 
+	    unit_lit = vid + vid + sign;
+	}	// end else
 	}	// end for
 
 	back_dl = dlevel();	// back_dl may be changed by the following statments in TOCOMPONENTS
@@ -3215,7 +3215,7 @@ int CSolver::finish_add_conf_clause(int gflag)
 			int blevel = 0;
 			for (int j = back_dl - 1; j >= second_max; --j)
 			{
-				if (_component_infor_stack[_branch_infor_stack[j+1]->gid]->ancestor_index 
+				if (_component_infor_stack[_branch_infor_stack[j+1]->gid]->ancestor_index
 					!= _branch_infor_stack[j]->gid)
 				{
 					blevel = j + 1;
@@ -3241,7 +3241,7 @@ int CSolver::finish_add_conf_clause(int gflag)
 				variable(vid).set_tried_both(true);	// tried both now, set the flag
 				queue_implication(unit_lit, added_cl, back_dl); // the implication is related to the branch component
 			}
-			else 
+			else
 			{
 				if (blevel == 0)
 					blevel = second_max;
@@ -3270,7 +3270,7 @@ int CSolver::finish_add_conf_clause(int gflag)
 			}
 			//if (flag)
 			//	cout << "blevel = " << blevel << endl;
-			if (blevel > 0)	
+			if (blevel > 0)
 			{
 				//last_branch = (*_assignment_stack[blevel])[0];
 				far_back_track(blevel + 1);	//	backtrack to the proper level
@@ -3349,7 +3349,7 @@ int CSolver::conflict_analysis_grasp (void)
 
 int CSolver::conflict_analysis_decisions_only (void)
 {
-    //For experiment purpose only, don't use it 
+    //For experiment purpose only, don't use it
     unsigned int i;
     ClauseIdx cl = _conflicts[0];
     int gflag = clause(cl).gflag();
@@ -3376,7 +3376,7 @@ int CSolver::conflict_analysis_decisions_only (void)
 	    }
 	}
     }
-    for (vector<int>::iterator itr = involved_lits.begin(); 
+    for (vector<int>::iterator itr = involved_lits.begin();
 	 itr != involved_lits.end(); ++itr) {
 	int svar = *itr;
 	if (variable(svar>>1).get_antecedent() == NULL_CLAUSE) {
@@ -3394,7 +3394,7 @@ int CSolver::conflict_analysis_decisions_only (void)
 
 int CSolver::conflict_analysis_allUIP (void)
 {
-    //For experiment purpose only, don't use it 
+    //For experiment purpose only, don't use it
     vector<int> real_conflict_lits;
     ClauseIdx cl = _conflicts[0];
     DBG0(cout <<"Conflict clause: " << cl << " : " << clause(cl) << endl;);
@@ -3403,12 +3403,12 @@ int CSolver::conflict_analysis_allUIP (void)
     vector <int> & assignments = *_assignment_stack[dlevel()]; //current dl must be the conflict cl.
     for (int i=assignments.size()-1; i >= 0; --i) { //now add conflict lits, and unassign vars
 	int assigned = assignments[i];
-	if (variable(assigned>>1).is_marked()) {  
+	if (variable(assigned>>1).is_marked()) {
 	    //this variable is involved in the conflict clause or it's antecedent
 	    variable(assigned>>1).clear_marked();
-	    -- _num_marked; 
+	    -- _num_marked;
 	    ClauseIdx ante_cl = variables()[assigned>>1].get_antecedent();
-	    if ( _num_marked == 0 ) { 
+	    if ( _num_marked == 0 ) {
 				//the first UIP encountered
 		real_conflict_lits.push_back(assigned ^ 0x1); //this is the flipped lit
 		break;
@@ -3430,15 +3430,15 @@ int CSolver::conflict_analysis_allUIP (void)
 	mark_vars_of_dl(current, dl);
 	if (_num_marked == 0) //conflict does not involve this level
 	    continue;
-	vector <int> & assignments = *_assignment_stack[dl]; 
+	vector <int> & assignments = *_assignment_stack[dl];
 	for (int i=assignments.size()-1; i >= 0; --i) { //now add conflict lits, and unassign vars
 	    int assigned = assignments[i];
-	    if (variable(assigned>>1).is_marked()) {  
+	    if (variable(assigned>>1).is_marked()) {
 				//this variable is involved in the conflict clause or it's antecedent
 		variable(assigned>>1).clear_marked();
-		-- _num_marked; 
+		-- _num_marked;
 		ClauseIdx ante_cl = variables()[assigned>>1].get_antecedent();
-		if ( _num_marked == 0 ) { 
+		if ( _num_marked == 0 ) {
 		    //UIP encountered
 		    real_conflict_lits.push_back(assigned^0x1);  // add this assignment
 		    DBG1(cout << "Put " << (assigned&0x1 ? "+":"-") << (assigned >> 1) << "in conflict clause" << endl;);
@@ -3449,7 +3449,7 @@ int CSolver::conflict_analysis_allUIP (void)
 		    gflag |= clause(ante_cl).gflag();
 		    mark_vars_at_level(ante_cl, assigned>>1/*var*/, dl);
 		}
-	    }	    
+	    }
 	}
     }
     assert (_num_marked == 0);
@@ -3465,20 +3465,20 @@ int CSolver::conflict_analysis_allUIP (void)
 
 int CSolver::conflict_analysis_lastUIP(void)
 {
-    //For experiment purpose only, don't use it 
+    //For experiment purpose only, don't use it
     ClauseIdx cl = _conflicts[0];
     mark_vars_at_current_dlevel (cl, -1 /*var*/);
     unsigned gflag = clause(cl).gflag();
     vector <int> & assignments = *_assignment_stack[dlevel()]; //current dl must be the conflict cl.
     for (int i=assignments.size()-1; i >= 0; --i) { //now add conflict lits, and unassign vars
 	int assigned = assignments[i];
-	if (variable(assigned>>1).is_marked()) {  
+	if (variable(assigned>>1).is_marked()) {
 	    //this variable is involved in the conflict clause or it's antecedent
 	    variable(assigned>>1).clear_marked();
-	    -- _num_marked; 
+	    -- _num_marked;
 	    ClauseIdx ante_cl = variables()[assigned>>1].get_antecedent();
 	    if ( ante_cl == NULL_CLAUSE ) { //last UIP is the decision varialbe
-		assert (i == 0);	     
+		assert (i == 0);
 		assert (_num_marked == 0); //last UIP is still a UIP
 		assert (variable(assigned>>1).new_cl_phase() == UNKNOWN);
 		_conflict_lits.push_back(assigned^0x1);  // add this assignment's reverse, e.g. UIP
@@ -3497,7 +3497,7 @@ int CSolver::conflict_analysis_lastUIP(void)
 
 // old version
 /*
-int CSolver::conflict_analysis_firstUIP (void) 
+int CSolver::conflict_analysis_firstUIP (void)
 {
     assert (dlevel() > 0);
     ClauseIdx cl = _conflicts[0];
@@ -3510,12 +3510,12 @@ int CSolver::conflict_analysis_firstUIP (void)
     vector <int> & assignments = *_assignment_stack[dlevel()]; //current dl must be the conflict cl.
     for (int i=assignments.size()-1; i >= 0; --i) { //now add conflict lits, and unassign vars
 	int assigned = assignments[i];
-	if (variable(assigned>>1).is_marked()) {  
+	if (variable(assigned>>1).is_marked()) {
 	    //this variable is involved in the conflict clause or it's antecedent
 	    variable(assigned>>1).clear_marked();
-	    -- _num_marked; 
+	    -- _num_marked;
 	    ClauseIdx ante_cl = variables()[assigned>>1].get_antecedent();
-	    if ( _num_marked == 0 ) { 
+	    if ( _num_marked == 0 ) {
 				//the first UIP encountered, conclude add clause
 		assert (variable(assigned>>1).new_cl_phase() == UNKNOWN);
 		_conflict_lits.push_back(assigned^0x1);  // add this assignment's reverse, e.g. UIP
@@ -3531,15 +3531,15 @@ int CSolver::conflict_analysis_firstUIP (void)
 	}
     }
     return finish_add_conf_clause(gflag);
-}*/		
+}*/
 
 // new version from zchaff2004
-int CSolver::conflict_analysis_firstUIP (void) 
+int CSolver::conflict_analysis_firstUIP (void)
 {
     int min_conf_id=_conflicts[0];
     int min_conf_length=-1;
     ClauseIdx cl;
-    unsigned gflag; 
+    unsigned gflag;
     _mark_increase_score=false;
     if(_conflicts.size()>1){
         for(vector<ClauseIdx>::iterator ci=_conflicts.begin();ci!=_conflicts.end();ci++){
@@ -3553,12 +3553,12 @@ int CSolver::conflict_analysis_firstUIP (void)
             vector <int> & assignments = *_assignment_stack[dlevel()]; //current dl must be the conflict cl.
             for (int i=assignments.size()-1; i >= 0; --i) { //now add conflict lits, and unassign vars
                 int assigned = assignments[i];
-        	    if (variable(assigned>>1).is_marked()) {  
+        	    if (variable(assigned>>1).is_marked()) {
         	        //this variable is involved in the conflict clause or it's antecedent
         	        variable(assigned>>1).clear_marked();
-        	        --_num_marked; 
+        	        --_num_marked;
         	        ClauseIdx ante_cl = variables()[assigned>>1].get_antecedent();
-        	        if ( _num_marked == 0 ) { 
+        	        if ( _num_marked == 0 ) {
         		    //the first UIP encountered, conclude add clause
         		    assert (variable(assigned>>1).new_cl_phase() == UNKNOWN);
         		    _conflict_lits.push_back(assigned^0x1);  // add this assignment's reverse, e.g. UIP
@@ -3579,7 +3579,7 @@ int CSolver::conflict_analysis_firstUIP (void)
                 min_conf_id=cl;
             }
             //cout<<"current is "_conflict_lits.size()<<" Min is "<<_min_conf_clause.size()<<endl;
-            
+
             for(vector<int>::iterator vi=_conflict_lits.begin();vi!=_conflict_lits.end();vi++) {
        	        int s_var = *vi;
     	        CVariable & var = variable(s_var >> 1);
@@ -3601,12 +3601,12 @@ int CSolver::conflict_analysis_firstUIP (void)
     vector <int> & assignments = *_assignment_stack[dlevel()]; //current dl must be the conflict cl.
     for (int i=assignments.size()-1; i >= 0; --i) { //now add conflict lits, and unassign vars
         int assigned = assignments[i];
-	if (variable(assigned>>1).is_marked()) {  
+	if (variable(assigned>>1).is_marked()) {
 	    //this variable is involved in the conflict clause or it's antecedent
 	    variable(assigned>>1).clear_marked();
-	    --_num_marked; 
+	    --_num_marked;
 	    ClauseIdx ante_cl = variables()[assigned>>1].get_antecedent();
-	    if ( _num_marked == 0 ) { 
+	    if ( _num_marked == 0 ) {
 		//the first UIP encountered, conclude add clause
 		assert (variable(assigned>>1).new_cl_phase() == UNKNOWN);
 		_conflict_lits.push_back(assigned^0x1);  // add this assignment's reverse, e.g. UIP
@@ -3623,21 +3623,21 @@ int CSolver::conflict_analysis_firstUIP (void)
         }
     }
     return finish_add_conf_clause(gflag);
-}		
+}
 
 
 
-int CSolver::conflict_analysis_mincut (void) 
+int CSolver::conflict_analysis_mincut (void)
 {
     assert (1 && "Not available, need a mincut library PLED");
     return 0;
-}		
+}
 
 void CSolver::print_cls(ostream & os)
 {
 	cout << "printing clauses at level " << dlevel() << endl;
 	os << endl << "************************************" << endl; // added by sang
-    for (unsigned i=0; i< clauses().size(); ++i) 
+    for (unsigned i=0; i< clauses().size(); ++i)
 	{
 		cout << i << " : (";
 		CClause & cl = clause(i);
@@ -3654,12 +3654,12 @@ void CSolver::print_cls(ostream & os)
 		for (unsigned j=0; j< cl.num_lits(); ++j) {
 		// can be simplified to:
 		// if (var.value() != (unsigned)(lit&0x1))	// added by sang
-		//if (variable(cl.literal(j).var_index()).value() == UNKNOWN) // added by sang 
+		//if (variable(cl.literal(j).var_index()).value() == UNKNOWN) // added by sang
 			os << (cl.literal(j).var_sign() ? "-":"") << cl.literal(j).var_index() << " ";
-			/*if ((cl.literal(j).var_sign() == 0) &&						// added by sang 
+			/*if ((cl.literal(j).var_sign() == 0) &&						// added by sang
 			(variable(cl.literal(j).var_index()).value() == 1))
 			cout << " S ";
-			if ((cl.literal(j).var_sign() == 1) &&						// added by sang 
+			if ((cl.literal(j).var_sign() == 1) &&						// added by sang
 			(variable(cl.literal(j).var_index()).value() == 0))
 			cout << " S ";*/
 		}	// end for j
@@ -3668,7 +3668,7 @@ void CSolver::print_cls(ostream & os)
     }	// end for i
 	os << "************************************" << endl; // added by sang
 }
-int CSolver::mem_usage(void) 
+int CSolver::mem_usage(void)
 {
     int mem_dbase = CDatabase::mem_usage();
     int mem_assignment = 0;
@@ -3704,26 +3704,26 @@ int CSolver::mem_usage(void)
 	    vector<CLitPoolElement *> watched;
 	    vector<CLitPoolElement *> & old_watched = variable(i).watched(j);
 	    watched.reserve(old_watched.size());
-	    for (vector<CLitPoolElement *>::iterator itr = old_watched.begin(); 
+	    for (vector<CLitPoolElement *>::iterator itr = old_watched.begin();
 		 itr != old_watched.end(); ++itr)
 		watched.push_back(*itr);
 	    //because watched is a temp mem allocation, it will get deleted
 	    //out of the scope, but by swap it with the old_watched, the contents are reserved.
-	    old_watched.swap(watched); 
+	    old_watched.swap(watched);
 #ifdef KEEP_LIT_CLAUSES
 	    vector<int> lits_cls;
 	    vector<int> & old_lits_cls = variable(i).lit_clause(j);
 	    lits_cls.reserve(old_lits_cls.size());
-	    for (vector<int>::iterator itr = old_lits_cls.begin(); 
+	    for (vector<int>::iterator itr = old_lits_cls.begin();
 			itr != old_lits_cls.end(); ++itr)	// corrected by sang
 			lits_cls.push_back(*itr);
-	    old_lits_cls.swap(lits_cls); 
+	    old_lits_cls.swap(lits_cls);
 #endif
 	}
-    } 
+    }
     int mem_after = mem_usage();
-    if (_params.verbosity > 0) 
-	cout << "Database Cleaned, releasing (approximately) " 
+    if (_params.verbosity > 0)
+	cout << "Database Cleaned, releasing (approximately) "
 	     << mem_before - mem_after << " Bytes" << endl;
 }*/
 
@@ -3749,26 +3749,26 @@ void CSolver::clean_up_dbase(void)
 	    vector<CLitPoolElement *> watched;
 	    vector<CLitPoolElement *> & old_watched = variable(i).watched(j);
 	    watched.reserve(old_watched.size());
-	    for (vector<CLitPoolElement *>::iterator itr = old_watched.begin(); 
+	    for (vector<CLitPoolElement *>::iterator itr = old_watched.begin();
 		 itr != old_watched.end(); ++itr)
 		watched.push_back(*itr);
 	    //because watched is a temp mem allocation, it will get deleted
 	    //out of the scope, but by swap it with the old_watched, the contents are reserved.
-	    old_watched.swap(watched); 
+	    old_watched.swap(watched);
 #ifdef KEEP_LIT_CLAUSES
 	    vector<int> lits_cls;
 	    vector<int> & old_lits_cls = variable(i).lit_clause(j);
 	    lits_cls.reserve(old_lits_cls.size());
-	    for (vector<int>::iterator itr = old_lits_cls.begin(); 
+	    for (vector<int>::iterator itr = old_lits_cls.begin();
 			itr != old_lits_cls.end(); ++itr)	// corrected by sang
 			lits_cls.push_back(*itr);
-	    old_lits_cls.swap(lits_cls); 
+	    old_lits_cls.swap(lits_cls);
 #endif
 	}
-    } 
+    }
     int mem_after = mem_usage();
-    if (_params.verbosity > 0) 
-	cout << "Database Cleaned, releasing (approximately) " 
+    if (_params.verbosity > 0)
+	cout << "Database Cleaned, releasing (approximately) "
 	     << mem_before - mem_after << " Bytes" << endl;
 }
 
@@ -3793,13 +3793,13 @@ void CSolver::update_var_score(void) {
 	cout << (_ordered_vars[i].first - & variables()[0]) << "(" << _ordered_vars[i].first->score() << ") ";
 	cout << endl;
 	);
-    for (i=0, sz= _ordered_vars.size(); i<sz; ++i) 
+    for (i=0, sz= _ordered_vars.size(); i<sz; ++i)
 	_ordered_vars[i].first->set_var_score_pos(i);
     _max_score_pos = 0;
 }
 
 void CSolver::restart (void){
-    if (_params.verbosity > 1 ) 
+    if (_params.verbosity > 1 )
 	cout << "Restarting ... " << endl;
     if (dlevel() > 1) {
 	//clean up the original var_stats.
@@ -3808,7 +3808,7 @@ void CSolver::restart (void){
 	variable(i).score(1) = variable(i).lits_count(1);
 	}
 	update_var_score(); */
-	back_track(1); //backtrack to level 0. restart.	
+	back_track(1); //backtrack to level 0. restart.
     }
 }
 
@@ -3817,7 +3817,7 @@ void CSolver::set_up_resolve(ClauseIdx conf_cl, set<CVariable *, cmp_var_assgn_p
     assert (_conflict_lits.empty());
     assert (conf_lits.empty());
     CClause & cl = clause(conf_cl);
-    for (CLitPoolElement * lit = cl.first_lit(); lit->is_literal(); ++lit) 
+    for (CLitPoolElement * lit = cl.first_lit(); lit->is_literal(); ++lit)
 	conf_lits.insert(& variable(lit->var_index()));
 }
 unsigned CSolver::resolve_one_lit(set<CVariable *, cmp_var_assgn_pos> & conf_lits)
@@ -3872,7 +3872,7 @@ int CSolver::conflict_analysis_firstUIP_resolve_based(void)
 	_stats.is_mem_out = true;
 	_conflicts.clear();
 	assert (_implication_queue.empty());
-	return 1; 
+	return 1;
     }
     adjust_variable_order (&(*cls_lits.begin()), cls_lits.size());
     int back_dl = 0;
@@ -3897,7 +3897,7 @@ int CSolver::conflict_analysis_firstUIP_resolve_based(void)
 int CSolver::add_clause_incr(int * lits, int num_lits, int gid)
 {
     unsigned gflag;
-    if (gid == PERMANENT_GID ) 
+    if (gid == PERMANENT_GID )
 	gflag = 0;
     else if (gid == VOLATILE_GID)
 	gflag = ~0x0;
@@ -3943,7 +3943,7 @@ int CSolver::add_clause_incr(int * lits, int num_lits, int gid)
 	if (unit == 0){ //not a unit clause
 	    //no need to do anything
 	}
-	else 
+	else
 	    queue_implication(unit, cl, find_max_clause_dlevel(cl));
 	DBG1(cout << "Additional Clause cause implication" << endl;);
     }
@@ -3962,7 +3962,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 	int sum = 0;
 	bool larger;
 	CVariable & var = variable(0);
-	
+
 	++detection_seq;	// sequence number of the current component detection
 	//cout << "detectio_seq == " << detection_seq << endl;
 	vector<int> & var_set = * _component_infor_stack[gid]->var_set;
@@ -3981,7 +3981,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 		CVariable & cur_var = variable(vid);
 		for (int k = 0; k < 2; ++k)
 		{
-			int var_touched_sz = cur_var.lit_clause(k).size();	
+			int var_touched_sz = cur_var.lit_clause(k).size();
 			for (int i=0; i< var_touched_sz; ++i)
 				if (!clause(cur_var.lit_clause(k)[i]).counter_one())
 				{
@@ -4031,7 +4031,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 
 		_component_infor_stack.push_back(comp_infor);	// store comp_infor in the global stack
 		formula & comp= head.back()->comp_val_pair->f;	// comp = formula
-	
+
 		vector<int> & variables = * comp_infor->var_set;
 
 		touched_var_stack.push_back(vid);
@@ -4047,12 +4047,12 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 			//char c = getchar();
 			CVariable & var = variable(v);
 			int degree[2]; // degree[0]==pos_degree, degree[1]==neg_degree
-			degree[0] = degree[1] = 0;	
+			degree[0] = degree[1] = 0;
 
 			for (int k = 0; k < 2; ++k)
 			{
 				int var_touched_sz = var.lit_clause(k).size();
-				
+
 				for (int i = 0; i < var_touched_sz; ++i)
 				{
 					int cl_num = var.lit_clause(k)[i];
@@ -4075,7 +4075,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 					//comp.push_back(new vector <int>);	// allocate memory for a clause
 					//if (dynamic_heuristic)
 					++degree[k];	// increment degree-counter
-					
+
 					int cla_sz = cla.num_lits();
 					int num_unkown = 0;
 					for (int j = 0; j < cla_sz; ++j)
@@ -4085,7 +4085,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 						{
 							//comp.back()->push_back(cla.literal(j).var_sign() ? -idx : idx);
 							//comp.back()->push_back(cla.literal(j).s_var());	// changed by sang
-							comp.push_back(cla.literal(j).s_var());	
+							comp.push_back(cla.literal(j).s_var());
 							num_unkown++;
 							//cout << "in clause " << var.lit_clause(k)[i] << ", "
 							//cout << "literal " << (cla.literal(j).var_sign() ? idx : idx)
@@ -4107,13 +4107,13 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 					{
 						//cout << "binary clause found: ("
 						//	 << comp[comp.size() - 2] << ", " << comp.back() << ")" << endl;
-						//cout << "var_score.size() = " << var_score.size() << endl;							
+						//cout << "var_score.size() = " << var_score.size() << endl;
 						var_score[comp[comp.size() - 2]]++;
 						var_score[comp.back()]++;
 					}
 					comp.push_back(0);	// add 0 as a terminating symbol for a clause
 					comp_infor->num_clause++;
-					
+
 				}	// end for i
 			}	// end for k
 
@@ -4125,18 +4125,18 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 			{
 				switch(dynamic_heuristic)
 				{
-				case DEGREE:	
+				case DEGREE:
 							if (comp_infor->largest_degree < degree[larger]
-								|| ((comp_infor->largest_degree == degree[larger]) 
+								|| ((comp_infor->largest_degree == degree[larger])
 								&& (comp_infor->largest_svar > (v << 1))))
 							{
 								comp_infor->largest_degree = degree[larger];
 								comp_infor->largest_svar = (v << 1) + larger;
 							}
 							break;
-				case DEGREE_SUM:	
+				case DEGREE_SUM:
 							if ((comp_infor->largest_degree < degree[larger])
-								|| (comp_infor->largest_degree == degree[larger] 
+								|| (comp_infor->largest_degree == degree[larger]
 								&& comp_infor->largest_sum < sum))
 							{
 								comp_infor->largest_sum = sum;
@@ -4161,16 +4161,16 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 								comp_infor->largest_degree = degree[larger];
 							}
 							break;
-				case VSIDS: 
+				case VSIDS:
 							var = variable(v);
 							sum_score = var.score(0) + var.score(1);
 							if ((comp_infor->largest_sum < sum_score)
-								|| (comp_infor->largest_sum == sum_score 
+								|| (comp_infor->largest_sum == sum_score
 								&& comp_infor->largest_degree < var.score())
 								|| comp_infor->largest_sum == 0)
 							{
-								//cout << "var " << v << " selected as new s_var" 
-								//	 << ", var " << (comp_infor->largest_svar >> 1) << " replaced" << endl; 
+								//cout << "var " << v << " selected as new s_var"
+								//	 << ", var " << (comp_infor->largest_svar >> 1) << " replaced" << endl;
 								comp_infor->largest_sum = sum_score;
 								comp_infor->largest_degree = var.score();
 								if (var.score(0) >= var.score(1))
@@ -4187,7 +4187,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 							break;
 				case UNIT_PROP:	;
 				case BERKMIN:	;
-				case VSADS:	
+				case VSADS:
 							var = variable(v);
 							int shifted_sum = sum >> 1;
 							//if (shifted_sum == 0)
@@ -4202,7 +4202,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 							//sum_score = sum + var.score(0) + var.score(1);	// define sum socre here
 							//var_score[v] = sum_score;
 							if ((comp_infor->largest_sum < sum_score)
-								|| (comp_infor->largest_sum == sum_score 
+								|| (comp_infor->largest_sum == sum_score
 								&& comp_infor->largest_degree < sum))
 							{
 								comp_infor->largest_sum = sum_score;
@@ -4210,18 +4210,18 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 								comp_infor->largest_svar = (v << 1) + (var.score(0) >= var.score(1) ? 0 : 1);
 							}
 				}	// end switch
-			}	
+			}
 			else if (comp_infor->static_score > variable(v)._static_score)
 			// the smaller the better static_score is
 			{
 				comp_infor->static_score = variable(v)._static_score;
 				switch(dynamic_heuristic)
 				{
-				case DEGREE:								
+				case DEGREE:
 							comp_infor->largest_degree = degree[larger];
 							comp_infor->largest_svar = (v << 1) + larger;
 							break;
-				case DEGREE_SUM:	
+				case DEGREE_SUM:
 							comp_infor->largest_sum = sum;
 							comp_infor->largest_svar = (v << 1) + larger;
 							comp_infor->largest_degree = degree[larger];
@@ -4236,7 +4236,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 							comp_infor->largest_svar = (v << 1) + larger;
 							comp_infor->largest_degree = degree[larger];
 							break;
-				case VSIDS: 
+				case VSIDS:
 							var = variable(v);
 							sum_score = var.score(0) + var.score(1);
 							comp_infor->largest_sum = sum_score;
@@ -4254,7 +4254,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 							break;
 				case UNIT_PROP:	;
 				case BERKMIN:	;
-				case VSADS:	
+				case VSADS:
 							var = variable(v);
 							int shifted_sum = sum >> 1;
 							//if (shifted_sum == 0)
@@ -4278,18 +4278,18 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 			{
 				switch(dynamic_heuristic)
 				{
-				case DEGREE:	
+				case DEGREE:
 							if (comp_infor->largest_degree < degree[larger]
-								|| ((comp_infor->largest_degree == degree[larger]) 
+								|| ((comp_infor->largest_degree == degree[larger])
 								&& (comp_infor->largest_svar > (v << 1))))
 							{
 								comp_infor->largest_degree = degree[larger];
 								comp_infor->largest_svar = (v << 1) + larger;
 							}
 							break;
-				case DEGREE_SUM:	
+				case DEGREE_SUM:
 							if ((comp_infor->largest_degree < degree[larger])
-								|| (comp_infor->largest_degree == degree[larger] 
+								|| (comp_infor->largest_degree == degree[larger]
 								&& comp_infor->largest_sum < sum))
 							{
 								comp_infor->largest_sum = sum;
@@ -4314,16 +4314,16 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 								comp_infor->largest_degree = degree[larger];
 							}
 							break;
-				case VSIDS: 
+				case VSIDS:
 							var = variable(v);
 							sum_score = var.score(0) + var.score(1);
 							if ((comp_infor->largest_sum < sum_score)
-								|| (comp_infor->largest_sum == sum_score 
+								|| (comp_infor->largest_sum == sum_score
 								&& comp_infor->largest_degree < var.score())
 								|| comp_infor->largest_sum == 0)
 							{
-								//cout << "var " << v << " selected as new s_var" 
-								//	 << ", var " << (comp_infor->largest_svar >> 1) << " replaced" << endl; 
+								//cout << "var " << v << " selected as new s_var"
+								//	 << ", var " << (comp_infor->largest_svar >> 1) << " replaced" << endl;
 								comp_infor->largest_sum = sum_score;
 								comp_infor->largest_degree = var.score();
 								if (var.score(0) >= var.score(1))
@@ -4340,7 +4340,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 							break;
 				case UNIT_PROP:	;
 				case BERKMIN:	;
-				case VSADS:	
+				case VSADS:
 							var = variable(v);
 							int shifted_sum = sum >> 1;
 							//if (shifted_sum == 0)
@@ -4355,7 +4355,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 							//sum_score = sum + var.score(0) + var.score(1);	// define sum socre here
 							//var_score[v] = sum_score;
 							if ((comp_infor->largest_sum < sum_score)
-								|| (comp_infor->largest_sum == sum_score 
+								|| (comp_infor->largest_sum == sum_score
 								&& comp_infor->largest_degree < sum))
 							{
 								comp_infor->largest_sum = sum_score;
@@ -4365,7 +4365,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 				}	// end switch
 			}	// end else if (!static_heuristic)
 
-			/*else if (comp_infor->static_score > variable(v)._static_score)	
+			/*else if (comp_infor->static_score > variable(v)._static_score)
 			// the smaller the better static_score is
 				{
 					comp_infor->static_score = variable(v)._static_score;
@@ -4379,7 +4379,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 		//comp_infor->num_clause = comp.size();	// comp = formula
 		//hashtable->quicksort(head.back()->comp_val_pair->f, 0, head.back()->comp_val_pair->f.size() - 1);
 		sort(variables.begin(), variables.end());
-		
+
 		/*if (dynamic_heuristic == VSADS)	// VSADS-rand
 		{
 			vector <int> best_scores;
@@ -4391,7 +4391,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 				+ (variable(decision).score(0) >= variable(decision).score(1) ? 0 : 1);
 		}
 		else */
-		
+
 		if (dynamic_heuristic == UNIT_PROP)
 		{
 			//vector<int> vars = *comp_infor->var_set;
@@ -4417,7 +4417,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 			{
 				if (comp_infor->static_score < variable(variables[k])._static_score)	// bug fixed
 					continue; // static score worse than the best, aborted
-					
+
 				int j = (variables[k] << 1) + 1;
 				up_score = var_score[j] + var_score[j - 1];
 				if (up_score > 0)
@@ -4457,7 +4457,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 			//cout << endl;
 			//cout << "**********************" << endl;
 			if (tail == 0)	// only one var with score > 0, choose it
-				comp_infor->largest_svar = candidates[0] 
+				comp_infor->largest_svar = candidates[0]
 											- (var_score[candidates[0]] > var_score[candidates[0] - 1] ? 0 : 1);
 			else if (tail > 0)
 			{
@@ -4490,7 +4490,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 					while(!_implication_queue.empty())
 						_implication_queue.pop();
 					//--dlevel();
-					
+
 					queue_implication(candidates[i] - 1, NULL_CLAUSE, dlevel()); // flip the decision
 					if (deduce() == CONFLICT)	// favor var that leads to a conflict
 					{
@@ -4524,9 +4524,9 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 
 					for (int i = 0; i <= tail; i++)
 					{
-						up_score = var_score[candidates[i]] * var_score[candidates[i]-1] 
+						up_score = var_score[candidates[i]] * var_score[candidates[i]-1]
 									+ var_score[candidates[i]] + var_score[candidates[i]-1];
-						var_score[candidates[i] - 1] = 
+						var_score[candidates[i] - 1] =
 												var_score[candidates[i]] > var_score[candidates[i] - 1] ? 0 : 1;
 						var_score[candidates[i]] = up_score;
 						if (up_score > largest_score)
@@ -4559,7 +4559,7 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 					//assert(var_score[finalist[0]-1] == 0 || var_score[finalist[0]-1] == 1);
 					counter = 0;	// set counter to 0 means randomization on var-selection off
 					if (counter == 0)
-						comp_infor->largest_svar = finalist[0] - var_score[finalist[0] - 1]; 
+						comp_infor->largest_svar = finalist[0] - var_score[finalist[0] - 1];
 					else	// randomly choose a var from top 10% scores
 					{
 						counter = rand() % (counter+1);
@@ -4615,26 +4615,26 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 					if (num_literal == 2)
 					{
 						//if (flag)
-						//	cout << "binary clause found: (" 
+						//	cout << "binary clause found: ("
 						//		 << (comp[i + 1] & 0x1 ? "-":"") << (comp[i + 1] >> 1)
 						//		 << "," << (comp[i + 2] & 0x1 ? "-":"") << (comp[i + 2] >> 1) << ")" << endl;
 						// a binary clause will change two var's score
 						score_sum[comp[i + 1] ^ 0x1] += var_score[comp[i + 2] ^ 0x1]; // that's correct! not a bug
 						score_sum[comp[i + 2] ^ 0x1] += var_score[comp[i + 1] ^ 0x1];
 						up_score = score_sum[comp[i + 1] ^ 0x1] + score_sum[comp[i + 1]];
-						if (up_score > largest_score && comp_infor->static_score 
+						if (up_score > largest_score && comp_infor->static_score
 							== variable(comp[i + 1] >> 1)._static_score)
 						{
 							largest_score = up_score;
-							largest_svar = score_sum[comp[i + 1] ^ 0x1] <= score_sum[comp[i + 1]]? 
+							largest_svar = score_sum[comp[i + 1] ^ 0x1] <= score_sum[comp[i + 1]]?
 											comp[i + 1] ^ 0x1 : comp[i + 1];
 						}
 						up_score = score_sum[comp[i + 2] ^ 0x1] + score_sum[comp[i + 2]];
-						if (up_score > largest_score && comp_infor->static_score 
+						if (up_score > largest_score && comp_infor->static_score
 							== variable(comp[i + 2] >> 1)._static_score)
 						{
 							largest_score = up_score;
-							largest_svar = score_sum[comp[i + 2] ^ 0x1] <= score_sum[comp[i + 2]]? 
+							largest_svar = score_sum[comp[i + 2] ^ 0x1] <= score_sum[comp[i + 2]]?
 										  comp[i + 2] ^ 0x1 : comp[i + 2];
 						}
 					}	// end if
@@ -4644,26 +4644,26 @@ int CSolver::extract_new_components(Components & head, int level, unsigned gid)
 			if (num_literal == 2)	// make up for the first clause which could be binary too
 			{
 				//if (flag)
-				//	cout << "binary clause found: (" 
+				//	cout << "binary clause found: ("
 				//		 << (comp[0] & 0x1 ? "-":"") << (comp[0] >> 1)
 				//		 << "," << (comp[1] & 0x1 ? "-":"") << (comp[1] >> 1) << ")" << endl;
 				// a binary clause will change two var's score
-				score_sum[comp[0] ^ 0x1] += var_score[comp[1] ^ 0x1]; 
+				score_sum[comp[0] ^ 0x1] += var_score[comp[1] ^ 0x1];
 				score_sum[comp[1] ^ 0x1] += var_score[comp[0] ^ 0x1];
 				up_score = score_sum[comp[0] ^ 0x1] + score_sum[comp[0]];
-				if (up_score > largest_score && comp_infor->static_score 
+				if (up_score > largest_score && comp_infor->static_score
 					== variable(comp[0] >> 1)._static_score)
 				{
 					largest_score = up_score;
-					largest_svar = score_sum[comp[0] ^ 0x1] <= score_sum[comp[0]]? 
+					largest_svar = score_sum[comp[0] ^ 0x1] <= score_sum[comp[0]]?
 									comp[0] ^ 0x1 : comp[0];
 				}
 				up_score = score_sum[comp[1] ^ 0x1] + score_sum[comp[1]];
-				if (up_score > largest_score && comp_infor->static_score 
+				if (up_score > largest_score && comp_infor->static_score
 					== variable(comp[1] >> 1)._static_score)
 				{
 					largest_score = up_score;
-					largest_svar = score_sum[comp[1] ^ 0x1] <= score_sum[comp[1]]? 
+					largest_svar = score_sum[comp[1] ^ 0x1] <= score_sum[comp[1]]?
 								  comp[1] ^ 0x1 : comp[1];
 				}
 			}	// end if
@@ -4716,14 +4716,14 @@ void CSolver::dump_components(Components & head)	// added by sang
 	//{
 	//	cout << "empty components" << endl << "****************************************************" << endl;
 	//	return;
-	//}	
+	//}
 	cout << endl << "****************************************************" << endl;
 	// component 0 is not in the component list!
 	cout << "_component_infor_stack[0]: " << endl;
 	cout << "sat_probability = " << _component_infor_stack[0]->sat_probability
 		 << ", left_sat_prob = " << _component_infor_stack[0]->left_sat_prob
 		 << ", right_sat_prob = " << _component_infor_stack[0]->right_sat_prob << endl
-		 << (_component_infor_stack[0]->active ? "active " : ", inactive ") 
+		 << (_component_infor_stack[0]->active ? "active " : ", inactive ")
 		 << ", num_children = " << _component_infor_stack[0]->num_children
 		 << ", num_cached_children = " << _component_infor_stack[0]->num_cached_children << endl;
 	if (!_component_infor_stack[0]->var_set->empty())
@@ -4736,30 +4736,30 @@ void CSolver::dump_components(Components & head)	// added by sang
 	{
 		if ((* itr)->comp_val_pair)	// the component pointed by itr is not NULL, (* itr)== Component_item *
 		{
-			cout << "component " << (* itr)->index << ", created at level " 
+			cout << "component " << (* itr)->index << ", created at level "
 				 << _component_infor_stack[(* itr)->index]->level
 				 << ", size = " << _component_infor_stack[(* itr)->index]->var_set->size()
 				 //<< ", size = " << _component_infor_stack[(* itr)->index]->num_clause
-				 //<< (* itr)->comp_val_pair->f.size() 
-				 << (_component_infor_stack[(* itr)->index]->active ? ", active " : ", inactive ") 
-				 << (_component_infor_stack[(* itr)->index]->changed ? ", changed " : ", unchanged ") 
-				 << ", hash_index = " << _component_infor_stack[(* itr) ->index]->hash_index 
+				 //<< (* itr)->comp_val_pair->f.size()
+				 << (_component_infor_stack[(* itr)->index]->active ? ", active " : ", inactive ")
+				 << (_component_infor_stack[(* itr)->index]->changed ? ", changed " : ", unchanged ")
+				 << ", hash_index = " << _component_infor_stack[(* itr) ->index]->hash_index
 				 << ", left_done = " << _component_infor_stack[(* itr) ->index]->left_branch_done
-				 <<	", sat_prob = " << _component_infor_stack[(* itr)->index]->sat_probability 
+				 <<	", sat_prob = " << _component_infor_stack[(* itr)->index]->sat_probability
 				 << ", left = " << _component_infor_stack[(* itr)->index]->left_sat_prob
 				 << ", right = " << _component_infor_stack[(* itr)->index]->right_sat_prob
-				 << ", ancestor = " << _component_infor_stack[(* itr)->index]->ancestor_index 
+				 << ", ancestor = " << _component_infor_stack[(* itr)->index]->ancestor_index
 				 << ", num_children = " << _component_infor_stack[(* itr)->index]->num_children
-				 << ", largest_svar = " << _component_infor_stack[(* itr)->index]->largest_svar 
+				 << ", largest_svar = " << _component_infor_stack[(* itr)->index]->largest_svar
 				 << " has degree = " << _component_infor_stack[(* itr)->index]->largest_degree;
 				 //<< ", largest_distance = " << _component_infor_stack[(* itr)->index]->largest_distance << endl;
-			
+
 			/*vector<int> & var_set = * _component_infor_stack[(* itr)->index]->var_set;
 			cout << endl << "var_set: ";
 			for (vector<int>::iterator itra = var_set.begin(); itra != var_set.end(); ++itra)
 				cout << (*itra) << ", ";
 			cout << endl;*/
-			cout << ", num_cached_children = " 
+			cout << ", num_cached_children = "
 				 << _component_infor_stack[(* itr)->index]->num_cached_children << endl;
 			if (_component_infor_stack[(* itr)->index]->num_cross_implications > 0)
 				cout << "changed by " << _component_infor_stack[(* itr)->index]->num_cross_implications
@@ -4769,7 +4769,7 @@ void CSolver::dump_components(Components & head)	// added by sang
 
 			for (int k = child_list.size() - 1, j = 0; k >= 0; --k)
 			{
-				cout << "cached child " << ++j << " : " 
+				cout << "cached child " << ++j << " : "
 					 << " hash_index = " << child_list[k]->hash_index
 					 << " seq_num = " << child_list[k]->sequence_number << endl;
 			}
@@ -4777,7 +4777,7 @@ void CSolver::dump_components(Components & head)	// added by sang
 			//	cout << "branched_child_list.size() = " << branched_child_list.size() << endl;
 			for (int k = branched_child_list.size() - 1, j = 0; k >= 0; --k)
 			{
-				cout << "branched child " << ++j << " : " 
+				cout << "branched child " << ++j << " : "
 					 << " hash_index = " << _component_infor_stack[branched_child_list[k]]->hash_index << endl;
 			}
 
@@ -4796,7 +4796,7 @@ void CSolver::dump_components(Components & head)	// added by sang
 		cout << "empty components" << endl << "****************************************************" << endl;
 		return;
 	}
-	
+
 	cout << endl << "****************************************************" << endl;
 	cout << "_component_infor_stack[0]: " << endl
 		 << "size = " << num_clauses()
@@ -4804,13 +4804,13 @@ void CSolver::dump_components(Components & head)	// added by sang
 		 << ", sat_probability = ";
 	mpz_out_str(stdout, 10, _component_infor_stack[0]->sat_probability.numerator);
 	cout << " / 2^" << _component_infor_stack[0]->sat_probability.denominator
-		 << ", left_sat_prob = "; 
+		 << ", left_sat_prob = ";
 	mpz_out_str(stdout, 10, _component_infor_stack[0]->left_sat_prob.numerator);
 	cout << " / 2^" << _component_infor_stack[0]->left_sat_prob.denominator << endl
 		 << "right_sat_prob = ";
 	mpz_out_str(stdout, 10, _component_infor_stack[0]->right_sat_prob.numerator);
 	cout << " / 2^" << _component_infor_stack[0]->right_sat_prob.denominator
-		 //<< (_component_infor_stack[0]->active ? "active " : ", inactive ") 
+		 //<< (_component_infor_stack[0]->active ? "active " : ", inactive ")
 		 << ", num_children = " << _component_infor_stack[0]->num_children << endl;
 	cout << "****************************************************" << endl;
 
@@ -4824,30 +4824,30 @@ void CSolver::dump_components(Components & head)	// added by sang
 			double left = mpz_get_d(_component_infor_stack[(* itr)->index]->left_sat_prob.numerator);
 				for (int k = 0; k < _component_infor_stack[(* itr)->index]->left_sat_prob.denominator; ++k)
 					left *= 0.5;
-			cout << "component " << (* itr)->index << ", created at level " 
+			cout << "component " << (* itr)->index << ", created at level "
 				 << _component_infor_stack[(* itr)->index]->level
-				 << ", size = " << (* itr)->comp_val_pair->f.size() 
-				 << (_component_infor_stack[(* itr)->index]->active ? ", active " : ", inactive ") 
+				 << ", size = " << (* itr)->comp_val_pair->f.size()
+				 << (_component_infor_stack[(* itr)->index]->active ? ", active " : ", inactive ")
 				 << ", hash_index = " << _component_infor_stack[(* itr) ->index]->hash_index << endl
 				 << "left_done = " << _component_infor_stack[(* itr)->index]->left_branch_done
  				 << ", zero_flag = " << _component_infor_stack[(* itr)->index]->sat_probability.zero_flag
 				 << ", left_zero = " << _component_infor_stack[(* itr)->index]->left_sat_prob.zero_flag
 				 << ", right_zero = " << _component_infor_stack[(* itr)->index]->right_sat_prob.zero_flag << endl
 				 <<	", sat_prob = " << temp
-			//mpz_out_str(stdout, 10, _component_infor_stack[(* itr)->index]->sat_probability.numerator); 
+			//mpz_out_str(stdout, 10, _component_infor_stack[(* itr)->index]->sat_probability.numerator);
 			//cout << " / 2^" << _component_infor_stack[(* itr)->index]->sat_probability.denominator
 				 << ", left = " << left
 			//mpz_out_str(stdout, 10, _component_infor_stack[(* itr)->index]->left_sat_prob.numerator);
 			//cout << " / 2^" << _component_infor_stack[(* itr)->index]->left_sat_prob.denominator
-				 << ", right = "; 
+				 << ", right = ";
 			mpz_out_str(stdout, 10, _component_infor_stack[(* itr)->index]->right_sat_prob.numerator);
 			cout << " / 2^" << _component_infor_stack[(* itr)->index]->right_sat_prob.denominator
-				 << ", ancestor = " << _component_infor_stack[(* itr)->index]->ancestor_index 
+				 << ", ancestor = " << _component_infor_stack[(* itr)->index]->ancestor_index
 				 << ", num_children = " << _component_infor_stack[(* itr)->index]->num_children
-				 << "largest_svar = " << _component_infor_stack[(* itr)->index]->largest_svar 
+				 << "largest_svar = " << _component_infor_stack[(* itr)->index]->largest_svar
 				 << " has degree = " << _component_infor_stack[(* itr)->index]->largest_degree;
 				 //<< ", largest_distance = " << _component_infor_stack[(* itr)->index]->largest_distance << endl;
-			
+
 			//set<int> & var_set = * _component_infor_stack[(* itr)->index]->var_set;
 			//cout << "var_set: ";
 			//for (set<int>::iterator itra = var_set.begin(); itra != var_set.end(); ++itra)
@@ -4861,13 +4861,13 @@ void CSolver::dump_components(Components & head)	// added by sang
 
 			for (int k = child_list.size() - 1, j = 0; k >= 0; --k)
 			{
-				cout << "cached child " << ++j << " : " 
+				cout << "cached child " << ++j << " : "
 					 << " hash_index = " << child_list[k]->hash_index
 					 << " seq_num = " << child_list[k]->sequence_number << endl;
 			}
 			for (int k = branched_child_list.size() - 1, j = 0; k >= 0; --k)
 			{
-				cout << "branched child " << ++j << " : " 
+				cout << "branched child " << ++j << " : "
 					 << " hash_index = " << _component_infor_stack[branched_child_list[k]]->hash_index << endl;
 			}
 
@@ -4904,20 +4904,20 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			left_branch_done = right_branch_done = true;	// there is only one branch for changed components
 			_component_infor_stack[last_branch_comp]->sat_probability.zero_flag = true;	// one branch UNSAT means whole UNSAT
 		}
-		else 
+		else
 		{
 			if (!_component_infor_stack[last_branch_comp]->sat_probability.zero_flag)
 				//_component_infor_stack[last_branch_comp]->sat_probability *= sat_prob;
-				BigNum::mul(_component_infor_stack[last_branch_comp]->sat_probability, 
+				BigNum::mul(_component_infor_stack[last_branch_comp]->sat_probability,
 							_component_infor_stack[last_branch_comp]->sat_probability, sat_prob);
 			else
 				//_component_infor_stack[last_branch_comp]->sat_probability = sat_prob;
 			{
-				mpz_set(_component_infor_stack[last_branch_comp]->sat_probability.numerator, 
+				mpz_set(_component_infor_stack[last_branch_comp]->sat_probability.numerator,
 						sat_prob.numerator);
-				_component_infor_stack[last_branch_comp]->sat_probability.denominator 
+				_component_infor_stack[last_branch_comp]->sat_probability.denominator
 					= sat_prob.denominator;
-				_component_infor_stack[last_branch_comp]->sat_probability.zero_flag 
+				_component_infor_stack[last_branch_comp]->sat_probability.zero_flag
 					= sat_prob.zero_flag;
 			}
 			// condition if (_component_infor_stack[last_branch_comp]->num_children == 0) added
@@ -4929,7 +4929,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 				/*mpz_set(sat_prob.numerator, _component_infor_stack[last_branch_comp]->sat_probability.numerator);
 				sat_prob.zero_flag = _component_infor_stack[last_branch_comp]->sat_probability.zero_flag;
 				sat_prob.denominator = _component_infor_stack[last_branch_comp]->sat_probability.denominator;*/
-				_component_infor_stack[last_branch_comp]->sat_probability.denominator += 
+				_component_infor_stack[last_branch_comp]->sat_probability.denominator +=
 								_component_infor_stack[last_branch_comp]->num_cross_implications;
 				//sat_prob.denominator += _component_infor_stack[last_branch_comp]->num_cross_implications;
 				//for (int i = 0; i < _component_infor_stack[last_branch_comp]->num_cross_implications; ++i)
@@ -4939,7 +4939,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 				//		 << "2^" << _component_infor_stack[last_branch_comp]->num_cross_implications << endl;
 			}
 		}	// end else
-	}	
+	}
 	else if (sat_prob.zero_flag)
 		{
 		// sat_prob < 0 means an UNSAT component encountered, that branch must be set done, no matter
@@ -4947,12 +4947,12 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			if (left_branch_done)
 				right_branch_done = true;	// right branch UNSAT
 			else // could be removed, because it will backtrack to this level
-			{	// left branch UNSAT, left_branch_done = true; 
+			{	// left branch UNSAT, left_branch_done = true;
 				_component_infor_stack[last_branch_comp]->left_sat_prob.zero_flag = true;// means left_branch UNSAT
 				_component_infor_stack[last_branch_comp]->left_branch_done = true;
 				//if (flag)
 				//	cout << "backlevel = " << backlevel << " returned from percolate_up" << endl;
-				return backlevel; 			
+				return backlevel;
 			}
 		}	// end if
 	else if (_component_infor_stack[last_branch_comp]->num_children == 0)
@@ -4967,7 +4967,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 		--_component_infor_stack[last_branch_comp]->num_children;
 
 	while(left_branch_done && right_branch_done)
-	{	
+	{
 		assert (_component_infor_stack[last_branch_comp]-> active);
 		Component_information & comp_infor = * _component_infor_stack[last_branch_comp];
 		if (!_component_infor_stack[last_branch_comp]->changed)
@@ -4976,7 +4976,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			{
 				if (!comp_infor.right_sat_prob.zero_flag) // multiply the component's right_sat_prob if it is > 0
 					BigNum::mul(comp_infor.right_sat_prob, comp_infor.right_sat_prob, sat_prob);
-			
+
 				else	// copy sat_prob to comp_infor.right_sat_prob
 				{
 					mpz_set(comp_infor.right_sat_prob.numerator, sat_prob.numerator);
@@ -5126,7 +5126,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			} // end for
 			child_list.clear();
 			comp_infor.num_cached_children = 0;
-				
+
 			vector<int> & cloned_child_list = comp_infor.branched_child_list;
 			if (!cloned_child_list.empty())
 			{
@@ -5180,9 +5180,9 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			// other components of that branch done or not
 				if (left_branch_done)
 					right_branch_done = true;	// both branch UNSAT
-				else 
+				else
 				{
-					_component_infor_stack[last_branch_comp]->left_sat_prob.zero_flag = true; // 
+					_component_infor_stack[last_branch_comp]->left_sat_prob.zero_flag = true; //
 					_component_infor_stack[last_branch_comp]->left_branch_done = true;// left branch found UNSAT
 					return backlevel;
 				}
@@ -5199,24 +5199,24 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			{
 				if (!_component_infor_stack[last_branch_comp]->sat_probability.zero_flag)
 				//_component_infor_stack[last_branch_comp]->sat_probability *= sat_prob;
-					BigNum::mul(_component_infor_stack[last_branch_comp]->sat_probability, 
+					BigNum::mul(_component_infor_stack[last_branch_comp]->sat_probability,
 							_component_infor_stack[last_branch_comp]->sat_probability, sat_prob);
 				else //_component_infor_stack[last_branch_comp]->sat_probability = sat_prob;
 				{
-					mpz_set(_component_infor_stack[last_branch_comp]->sat_probability.numerator, 
+					mpz_set(_component_infor_stack[last_branch_comp]->sat_probability.numerator,
 							sat_prob.numerator);
-					_component_infor_stack[last_branch_comp]->sat_probability.denominator 
+					_component_infor_stack[last_branch_comp]->sat_probability.denominator
 						= sat_prob.denominator;
-					_component_infor_stack[last_branch_comp]->sat_probability.zero_flag 
+					_component_infor_stack[last_branch_comp]->sat_probability.zero_flag
 						= sat_prob.zero_flag;
 				}
 				if (right_branch_done)
 				{
 					left_branch_done = true; // only one branch, right_done(SAT) means left_done too, both done
-					_component_infor_stack[last_branch_comp]->sat_probability.denominator += 
+					_component_infor_stack[last_branch_comp]->sat_probability.denominator +=
 						_component_infor_stack[last_branch_comp]->num_cross_implications;
 					//for (int i = 0; i < _component_infor_stack[last_branch_comp]->num_cross_implications; ++i)
-					//	_component_infor_stack[last_branch_comp]->sat_probability *= 0.5;	// fixed by adding this! 
+					//	_component_infor_stack[last_branch_comp]->sat_probability *= 0.5;	// fixed by adding this!
 					//cout << "changed component " << last_branch_comp << " divided by "
 					//	 << "2^" << _component_infor_stack[last_branch_comp]->num_cross_implications << endl;
 				}
@@ -5238,7 +5238,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 			{	// no other component of right branch done
 				mpz_set(comp_inf.right_sat_prob.numerator, sat_prob.numerator);
 				comp_inf.right_sat_prob.denominator = sat_prob.denominator;
-				comp_inf.right_sat_prob.zero_flag = false; 
+				comp_inf.right_sat_prob.zero_flag = false;
 			}
 		}
 		else // left_branch not done yet
@@ -5258,7 +5258,7 @@ int CSolver::percolate_up(BigNum & sat_prob, int gid)
 				comp_inf.left_branch_done = true; // comp_inf.sat_probability > -2 means left_branch_done
 				int num_implications = _num_implication_stack[branch_level] - 1; // bug, com_inf.level -1 changed
 				comp_inf.left_sat_prob.denominator += num_implications;	// probability divided by 2 for num_implications times
-			}	// end if 
+			}	// end if
 		}	// end else
 	}
 	return backlevel;	// this is the level where some component is UNSAT
@@ -5282,7 +5282,7 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 			left_branch_done = right_branch_done = true;	// there is only one branch for changed components
 			_component_infor_stack[last_branch_comp]->sat_probability = -1;	// one branch UNSAT means whole UNSAT
 		}
-		else 
+		else
 		{
 			if (_component_infor_stack[last_branch_comp]->sat_probability > -0.5)
 				_component_infor_stack[last_branch_comp]->sat_probability *= sat_prob;
@@ -5294,7 +5294,7 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 			{
 				_component_infor_stack[last_branch_comp]->left_branch_done = true;
 				left_branch_done = true;	// only one branch, right_done means left_done too, both done
-				_component_infor_stack[last_branch_comp]->sat_probability *= 
+				_component_infor_stack[last_branch_comp]->sat_probability *=
 					_component_infor_stack[last_branch_comp]->cross_implication_weight;
 			}
 		}
@@ -5306,12 +5306,12 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 			if (left_branch_done)
 				right_branch_done = true;	// right branch UNSAT
 			else // could be removed, because it will backtrack to this level
-			{	// left branch UNSAT, left_branch_done = true; 
+			{	// left branch UNSAT, left_branch_done = true;
 				_component_infor_stack[last_branch_comp]->left_sat_prob = -1;	// means left_branch UNSAT
 				_component_infor_stack[last_branch_comp]->left_branch_done = true;
-				//if (flag) 
+				//if (flag)
 				//	cout << "returned in percolate_up, backlevel = " << backlevel << endl;
-				return backlevel; 			
+				return backlevel;
 			}
 		}	// end if
 	else if (_component_infor_stack[last_branch_comp]->num_children == 0)
@@ -5326,7 +5326,7 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 		--_component_infor_stack[last_branch_comp]->num_children;
 
 	while(left_branch_done && right_branch_done)
-	{	
+	{
 		assert (_component_infor_stack[last_branch_comp]-> active);
 		Component_information & comp_infor = * _component_infor_stack[last_branch_comp];
 
@@ -5478,7 +5478,7 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 			} // end for
 			child_list.clear();
 			comp_infor.num_cached_children = 0;
-				
+
 			vector<int> & cloned_child_list = comp_infor.branched_child_list;
 			if (!cloned_child_list.empty())
 			{
@@ -5527,9 +5527,9 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 			// other components of that branch done or not
 				if (left_branch_done)
 					right_branch_done = true;	// both branch UNSAT
-				else 
+				else
 				{
-					_component_infor_stack[last_branch_comp]->left_sat_prob = -1; // 
+					_component_infor_stack[last_branch_comp]->left_sat_prob = -1; //
 					_component_infor_stack[last_branch_comp]->left_branch_done = true;// left branch found UNSAT
 					//if (flag) cout << "returned in percolate_up, backlevel = " << backlevel << endl;
 					return backlevel;
@@ -5551,7 +5551,7 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 				if (right_branch_done)
 				{
 					left_branch_done = true; // only one branch, right_done(SAT) means left_done too, both done
-					_component_infor_stack[last_branch_comp]->sat_probability *= 
+					_component_infor_stack[last_branch_comp]->sat_probability *=
 						_component_infor_stack[last_branch_comp]->cross_implication_weight;
 				}
 			}
@@ -5568,8 +5568,8 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 			//if (sat_prob > 0) // this condition must be true to quit the while loop
 			if (comp_inf.right_sat_prob > -0.5) // some other SAT component of right branch done
 				comp_inf.right_sat_prob = comp_inf.right_sat_prob * sat_prob;
-			else 
-				comp_inf.right_sat_prob = sat_prob; // no other component of right branch done					
+			else
+				comp_inf.right_sat_prob = sat_prob; // no other component of right branch done
 		}
 		else // left_branch not done yet
 		{
@@ -5591,7 +5591,7 @@ int CSolver::percolate_up(long double sat_prob, int gid)
 						comp_inf.left_sat_prob *= variable(literals[i] >> 1).pos_weight; // positive literal
 						//	sat_prob = sat_prob * 0.5;
 				}
-			}	// end if 
+			}	// end if
 		}	// end else
 	}
 
@@ -5606,7 +5606,7 @@ void CSolver::dump_branch_infor_stack(void)
 	for (int i = 0; i <= dlevel(); ++i)
 	{
 		cout << "(" << i << ": " << _branch_infor_stack[i]->gid //<< ") ";
-			 << ", " << _branch_infor_stack[i]->num_new_children 
+			 << ", " << _branch_infor_stack[i]->num_new_children
 			 << ", " <<  _branch_infor_stack[i]->num_children_of_changed << ") ";
 		//cout << "level " << i << ": gid = " << _branch_infor_stack[i]->gid
 			 //<< ", num_new_children = " << _branch_infor_stack[i]->num_new_children << endl;
@@ -5641,8 +5641,8 @@ void CSolver::remove_branched_children(vector<int> & branched_child_list)
 		top_child = branched_child_stack.back();
 		branched_child_stack.pop_back();
 		current = _component_infor_stack[top_child];
-		vector <child_to_remove *> & cached_child_list = 
-													(* current->comp_itr)->comp_val_pair->cached_child_list;		 
+		vector <child_to_remove *> & cached_child_list =
+													(* current->comp_itr)->comp_val_pair->cached_child_list;
 		for (int i = cached_child_list.size()-1; i >= 0; --i)
 		{
 			//cout << "num_decisions = " << _stats.num_decisions << endl;
@@ -5679,7 +5679,7 @@ bool CSolver::check_integrity()
 				assert(_component_infor_stack[v]->left_branch_done);
 				//if (!_component_infor_stack[v]->left_branch_done)
 				//{
-				//	cout << "assert component " << v 
+				//	cout << "assert component " << v
 				//		 << " left_done failed at decision = " << _stats.num_decisions << endl;
 				//	exit(0);
 				//}
@@ -5688,15 +5688,3 @@ bool CSolver::check_integrity()
 	}
 	return true;
 }
-
-
-
-
-	
-
-
-
-
-
-
-

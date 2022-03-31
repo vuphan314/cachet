@@ -1,34 +1,34 @@
 /*********************************************************************
- Copyright 2000-2003, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2003, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
 
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark,  service mark, or the name of Princeton University. 
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark,  service mark, or the name of Princeton University.
 
 
- --- This software and any associated documentation is provided "as is" 
+ --- This software and any associated documentation is provided "as is"
 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -36,8 +36,8 @@
 #include <stdlib.h>
 #include "zchaff_dbase.h"
 
-CDatabase::CDatabase()  
-{ 	
+CDatabase::CDatabase()
+{
     _stats.mem_used_up_counts 	= 0;
     _stats.mem_used_up 		= false;
 
@@ -49,7 +49,7 @@ CDatabase::CDatabase()
     _stats.num_deleted_literals = 0;
     _stats.num_enlarge		= 0;
     _stats.num_compact		= 0;
-    _lit_pool_start = (CLitPoolElement *) malloc (sizeof(CLitPoolElement) * STARTUP_LIT_POOL_SIZE); 
+    _lit_pool_start = (CLitPoolElement *) malloc (sizeof(CLitPoolElement) * STARTUP_LIT_POOL_SIZE);
     _lit_pool_finish = _lit_pool_start;
     _lit_pool_end_storage = _lit_pool_start + STARTUP_LIT_POOL_SIZE;
     lit_pool_push_back(0); //set the first element as a spacing element
@@ -61,8 +61,8 @@ CDatabase::CDatabase()
 }
 
 CDatabase::~CDatabase()
-{ 
-    free (_lit_pool_start); 
+{
+    free (_lit_pool_start);
 }
 
 unsigned CDatabase::estimate_mem_usage (void)
@@ -103,14 +103,14 @@ unsigned CDatabase::mem_usage(void) {
 
     for (unsigned i=0, sz = variables().size(); i < sz ;  ++i) {
 	CVariable & v = variable(i);
-	mem_watched	+= v.watched(0).capacity() + v.watched(1).capacity(); 
+	mem_watched	+= v.watched(0).capacity() + v.watched(1).capacity();
 #ifdef KEEP_LIT_CLAUSES
-	mem_lit_clauses += v.lit_clause(0).capacity() + v.lit_clause(1).capacity();	
+	mem_lit_clauses += v.lit_clause(0).capacity() + v.lit_clause(1).capacity();
 #endif
     }
     mem_watched *= sizeof(CLitPoolElement*);
     mem_lit_clauses *= sizeof(ClauseIdx);
-    return (mem_lit_pool + mem_vars + mem_cls + 
+    return (mem_lit_pool + mem_vars + mem_cls +
 	    mem_cls_queue + mem_watched + mem_lit_clauses);
 }
 
@@ -125,7 +125,7 @@ int CDatabase::alloc_gid (void)
     return VOLATILE_GID;
 }
 
-void CDatabase::free_gid (int gid) 
+void CDatabase::free_gid (int gid)
 {
     assert (gid > 0 && "Can't free volatile or permanent group");
     assert (gid <= WORD_WIDTH && "gid > WORD_WIDTH?" );
@@ -135,26 +135,26 @@ void CDatabase::free_gid (int gid)
     _allocated_gid &= (~(1<< (gid-1)));
 }
 
-bool CDatabase::is_gid_allocated(int gid) 
+bool CDatabase::is_gid_allocated(int gid)
 {
-    if (gid==VOLATILE_GID || gid==PERMANENT_GID) 
+    if (gid==VOLATILE_GID || gid==PERMANENT_GID)
 	return true;
-    assert (gid<= WORD_WIDTH && gid > 0);	
-    if (_allocated_gid & (1 << (gid -1))) 
+    assert (gid<= WORD_WIDTH && gid > 0);
+    if (_allocated_gid & (1 << (gid -1)))
 	return true;
     return false;
 }
 
-int CDatabase::merge_clause_group(int g2, int g1) 
+int CDatabase::merge_clause_group(int g2, int g1)
 {
     assert (g1 >0 && g2> 0 && "Can't merge with permanent or volatile group");
     assert (g1 != g2);
     assert (is_gid_allocated(g1) && is_gid_allocated(g2));
-    for (unsigned i=0, sz=clauses().size(); i<sz; ++i) 
+    for (unsigned i=0, sz=clauses().size(); i<sz; ++i)
 	if (clause(i).status() != DELETED_CL)
 	    if (clause(i).gid(g1) == true) {
 		clause(i).clear_gid(g1);
-		clause(i).set_gid(g2);	
+		clause(i).set_gid(g2);
 	    }
     free_gid (g1);
     return g2;
@@ -181,7 +181,7 @@ void CDatabase::mark_clause_deleted(CClause & cl) {
     _stats.num_deleted_literals += cl.num_lits();
 
     CLAUSE_STATUS status=cl.status();
-    if(status==ORIGINAL_CL) 
+    if(status==ORIGINAL_CL)
         _stats.num_del_orig_cls++;
     cl.set_status(DELETED_CL);
     for (unsigned i=0; i< cl.num_lits(); ++i) {
@@ -207,8 +207,8 @@ bool CDatabase::is_conflicting(ClauseIdx cl)
 bool CDatabase::is_satisfied(ClauseIdx cl)
 {
     CLitPoolElement * lits = clause(cl).literals();
-    for (int i=0, sz= clause(cl).num_lits(); i<sz; ++i) 
-	if (literal_value(lits[i]) == 1) 
+    for (int i=0, sz= clause(cl).num_lits(); i<sz; ++i)
+	if (literal_value(lits[i]) == 1)
 	    return true;
     return false;
 }
@@ -222,12 +222,12 @@ bool CDatabase::is_unit (ClauseIdx cl)
 	if (value == 1)
 	    return false;
 	else if (value != 0)
-	    ++ num_unassigned; 
+	    ++ num_unassigned;
     }
     return ( num_unassigned == 1);
 }
 
-int CDatabase::find_unit_literal(ClauseIdx cl) 
+int CDatabase::find_unit_literal(ClauseIdx cl)
 //will return 0 if not unit
 {
     int unit_lit = 0;
@@ -238,53 +238,53 @@ int CDatabase::find_unit_literal(ClauseIdx cl)
 	else if (value != 0) {
 	    if (unit_lit == 0)
 		unit_lit = clause(cl).literals()[i].s_var();
-	    else 
+	    else
 		return 0;
 	}
     }
     return unit_lit;
 }
 
-CLitPoolElement * CDatabase::lit_pool_begin(void) 
-{ 
-    return _lit_pool_start; 
-}
-
-CLitPoolElement * CDatabase::lit_pool_end(void) 
-{ 
-    return _lit_pool_finish; 
-}
-
-void CDatabase::lit_pool_incr_size( int size) 
+CLitPoolElement * CDatabase::lit_pool_begin(void)
 {
-    _lit_pool_finish += size; 
+    return _lit_pool_start;
+}
+
+CLitPoolElement * CDatabase::lit_pool_end(void)
+{
+    return _lit_pool_finish;
+}
+
+void CDatabase::lit_pool_incr_size( int size)
+{
+    _lit_pool_finish += size;
     assert (_lit_pool_finish <= _lit_pool_end_storage);
 }
 
-void CDatabase::lit_pool_push_back(int value) 
-{ 
+void CDatabase::lit_pool_push_back(int value)
+{
     assert (_lit_pool_finish <= _lit_pool_end_storage );
     _lit_pool_finish->val() = value;
     ++ _lit_pool_finish;
 }
 
-int CDatabase::lit_pool_size(void) 
-{ 
-    return _lit_pool_finish - _lit_pool_start; 
+int CDatabase::lit_pool_size(void)
+{
+    return _lit_pool_finish - _lit_pool_start;
 }
 
-int CDatabase::lit_pool_free_space(void) 
-{ 
-    return _lit_pool_end_storage - _lit_pool_finish; 
+int CDatabase::lit_pool_free_space(void)
+{
+    return _lit_pool_end_storage - _lit_pool_finish;
 }
 
-double CDatabase::lit_pool_utilization(void) 
+double CDatabase::lit_pool_utilization(void)
 {
     //minus num_clauses() is because of spacing (i.e. clause indices)
-    return (double)num_literals()/((double) (lit_pool_size() - num_clauses())) ; 
+    return (double)num_literals()/((double) (lit_pool_size() - num_clauses())) ;
 }
 
-CLitPoolElement & CDatabase::lit_pool(int i) 
+CLitPoolElement & CDatabase::lit_pool(int i)
 {
     return _lit_pool_start[i];
 }
@@ -292,8 +292,8 @@ CLitPoolElement & CDatabase::lit_pool(int i)
 void CDatabase::compact_lit_pool(void)
 {
     unsigned i, sz;
-    DBG1(cout << "Begin Compaction...... " << 
-	 endl << "***Before Compaction "<< endl;  
+    DBG1(cout << "Begin Compaction...... " <<
+	 endl << "***Before Compaction "<< endl;
 	 output_lit_pool_stats(););
     int new_index = 1;
     //first do the compaction for the lit pool
@@ -328,8 +328,8 @@ void CDatabase::compact_lit_pool(void)
 	    clause(cls_idx).first_lit() = &lit_pool(i) - clause(cls_idx).num_lits();
 	}
     }
-    DBG1(cout << "***After Compaction " << endl; 
-	 output_lit_pool_stats(); 
+    DBG1(cout << "***After Compaction " << endl;
+	 output_lit_pool_stats();
 	 cout << endl << endl;);
     ++_stats.num_compact;
 }
@@ -347,15 +347,15 @@ bool CDatabase::enlarge_lit_pool(void) //will return true if successful, otherwi
     //first, check if memory is running out
     int current_mem = estimate_mem_usage();
     float grow_ratio = 1;
-    if (current_mem < _params.mem_limit /4 ) 
+    if (current_mem < _params.mem_limit /4 )
 	grow_ratio = 2;
-    else if (current_mem < _params.mem_limit /2 ) 
+    else if (current_mem < _params.mem_limit /2 )
 	grow_ratio = 1.5;
-    else if (current_mem < _params.mem_limit * 0.8) 
+    else if (current_mem < _params.mem_limit * 0.8)
 	grow_ratio = 1.2;
     if (grow_ratio < 1.2) {
 	if ( lit_pool_utilization() < 0.9) {  //still has some garbage
-	    cout << "compaction needed, lit_pool_utilization() = " 
+	    cout << "compaction needed, lit_pool_utilization() = "
 	    << lit_pool_utilization() << endl;
 	    compact_lit_pool();
 	    return true;
@@ -380,8 +380,8 @@ bool CDatabase::enlarge_lit_pool(void) //will return true if successful, otherwi
     //update all the pointers
     int displacement = _lit_pool_start - old_start;
     for (i=0; i< clauses().size(); ++i)
-	if (clause(i).status()!=DELETED_CL) 
-	    clause(i).first_lit() += displacement; 
+	if (clause(i).status()!=DELETED_CL)
+	    clause(i).first_lit() += displacement;
 
     for (i=0, sz = variables().size(); i < sz ;  ++i) {
 	CVariable & v = variable(i);
@@ -389,7 +389,7 @@ bool CDatabase::enlarge_lit_pool(void) //will return true if successful, otherwi
 	    int k, sz1;
 	    vector<CLitPoolElement *> & watched = v.watched(j);
 	    for (k=0, sz1 = watched.size(); k< sz1 ; ++k) {
-		watched[k] += displacement; 
+		watched[k] += displacement;
 	    }
 	}
     }
@@ -414,14 +414,14 @@ ClauseIdx CDatabase::get_free_clause_idx(void)
     return new_cl;
 }
 
-ClauseIdx CDatabase::add_clause(int * lits, int n_lits, int gflag , bool original)  { 
+ClauseIdx CDatabase::add_clause(int * lits, int n_lits, int gflag , bool original)  {
     int new_cl;
     //a. do we need to enlarge lits pool?
-    while (lit_pool_free_space() <= n_lits + 1) { 
-	if (enlarge_lit_pool()==false) 
-	    return -1; //mem out, can't enlarge lit pool, because 
+    while (lit_pool_free_space() <= n_lits + 1) {
+	if (enlarge_lit_pool()==false)
+	    return -1; //mem out, can't enlarge lit pool, because
 	//ClauseIdx can't be -1, so it shows error.
-    }	
+    }
     //b. get a free cl index;
 	//if (_stats.num_added_clauses < ADDED_CL_MAX)	// added by sang
 	new_cl = get_free_clause_idx();
@@ -431,7 +431,7 @@ ClauseIdx CDatabase::add_clause(int * lits, int n_lits, int gflag , bool origina
 			 << "so clear and reuse clause(" << ADDED_CL_MAX << ")" << endl;
 		new_cl = ADDED_CL_MAX;
 		//clause(new_cl)._status = UNKNOWN_CL;
-		//clause(new_cl)._counter_one = 0;	// added by sang		
+		//clause(new_cl)._counter_one = 0;	// added by sang
 	}*/
 
     //c. add the clause lits to lits pool
@@ -454,7 +454,7 @@ ClauseIdx CDatabase::add_clause(int * lits, int n_lits, int gflag , bool origina
 #endif
     }
     //the element after the last one is the spacing element
-    cl.literal(n_lits).set_clause_index(new_cl); 
+    cl.literal(n_lits).set_clause_index(new_cl);
     //d. set the watched pointers
     if (cl.num_lits() > 1) {
 	//add the watched literal. note: watched literal must be the last free var
@@ -511,7 +511,7 @@ ClauseIdx CDatabase::add_clause(int * lits, int n_lits, int gflag , bool origina
 	}
     }
     //update some statistics
-    ++_stats.num_added_clauses; 
+    ++_stats.num_added_clauses;
     _stats.num_added_literals += n_lits;
     if (new_cl < 0)
     	cout << " new_cl < 0 in CDatabase::add_clause()! " << endl; // added by sang
@@ -519,20 +519,20 @@ ClauseIdx CDatabase::add_clause(int * lits, int n_lits, int gflag , bool origina
 }
 
 
-void CDatabase::output_lit_pool_stats (void) 
+void CDatabase::output_lit_pool_stats (void)
 {
     cout << "Lit_Pool Used " << lit_pool_size() << " Free " << lit_pool_free_space()
 	 << " Total " << lit_pool_size() + lit_pool_free_space()
-	 << " Num. Cl " << num_clauses() << " Num. Lit " << num_literals(); 
+	 << " Num. Cl " << num_clauses() << " Num. Lit " << num_literals();
     cout << " Efficiency " <<  lit_pool_utilization() << endl;
 }
 
 
-void CDatabase::detail_dump_cl(ClauseIdx cl_idx, ostream & os ) 
+void CDatabase::detail_dump_cl(ClauseIdx cl_idx, ostream & os )
 {
     os << "CL : " << cl_idx;
     CClause & cl = clause(cl_idx);
-    if (cl.status()==DELETED_CL) 
+    if (cl.status()==DELETED_CL)
 	os << "\t\t\t======removed=====";
     char value;
     for (unsigned i=0; i< cl.num_lits(); ++i) {
@@ -547,20 +547,8 @@ void CDatabase::detail_dump_cl(ClauseIdx cl_idx, ostream & os )
 void CDatabase::dump(ostream & os) {
     unsigned i;
     os << "Dump Database: " << endl;
-    for( i=0; i<_clauses.size(); ++i) 
+    for( i=0; i<_clauses.size(); ++i)
 	detail_dump_cl(i);
     for( i=1; i<_variables.size(); ++i)
 	os << "VID " << i << ":\t" << variable(i);
 }
-
-
-
-
-
-
-
-
-
-
-
-

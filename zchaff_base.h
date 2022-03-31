@@ -1,34 +1,34 @@
 /*********************************************************************
- Copyright 2000-2003, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2003, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
 
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark, service mark, or the name of Princeton University. 
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark, service mark, or the name of Princeton University.
 
 
- --- This software and any associated documentation is provided "as is" 
+ --- This software and any associated documentation is provided "as is"
 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -85,8 +85,8 @@ struct child_to_remove
 	unsigned sequence_number;
 };
 
-struct Component_value_pair 
-{	
+struct Component_value_pair
+{
 #ifdef APPROXIMATE_HASHING
 	unsigned long secondary_index;
 #endif
@@ -96,7 +96,7 @@ struct Component_value_pair
 #else
 	long double value;	// the probabily of f to be satisfied
 #endif
-	
+
 	formula f;		// real clauses of a formula
 	unsigned sequence_number;
 	Component_value_pair * next;
@@ -104,7 +104,7 @@ struct Component_value_pair
 	vector<child_to_remove *> cached_child_list;	// the child components to remove
 };
 
-typedef int ClauseIdx; //used to refer a clause. Because of dynamic 
+typedef int ClauseIdx; //used to refer a clause. Because of dynamic
 // allocation of vector storage, no pointer is allowered
 
 #ifndef _CLS_STATUS_
@@ -125,25 +125,25 @@ enum CLAUSE_STATUS
 
   Synopsis    [Definition of a literal]
 
-  Description [A literal is a variable with phase. Two things specify a literal: 
-               its "sign", and its variable index. 
+  Description [A literal is a variable with phase. Two things specify a literal:
+               its "sign", and its variable index.
 
 	       Each clause that has more than 1 literal contains two special literals.
-	       They are being "watched". A literal is marked with 2 bits: 
-	       00->not watched; 11->watched, direction = 1;  01->watched, dir = -1; 
+	       They are being "watched". A literal is marked with 2 bits:
+	       00->not watched; 11->watched, direction = 1;  01->watched, dir = -1;
 	       10 is not valid. These two bits occupy the least significant bits
-	       of the literal. 
+	       of the literal.
 
 	       Each literal is represented by a 32 bit signed integer. The higher 29
 	       bits represent the variable index. At most 2**28 varialbes are
 	       allowed. If the sign of this integer is negative, it means that it is
-	       not a valid literal. It could be a clause index or a deleted literal 
-	       pool element. The 3rd least significant bit is used to mark its sign. 
-	       0->positive, 1->negative. 
+	       not a valid literal. It could be a clause index or a deleted literal
+	       pool element. The 3rd least significant bit is used to mark its sign.
+	       0->positive, 1->negative.
 
 	       The literals are collected in a storage space called literal
 	       pool. An element in a literal pool can be a literal or a special
-	       spacing element to indicate the termination of a clause. The 
+	       spacing element to indicate the termination of a clause. The
 	       spacing elements has negative value of the clause index.]
 
   SeeAlso     [CDatabase, CClause]
@@ -172,19 +172,19 @@ public:
 
     //unsigned var_index(void) {
 	int var_index(void) {
-	return _val>>3; 
+	return _val>>3;
     }
 
-    unsigned var_sign(void) { 
-	return ( (_val>> 2)& 0x1); 
+    unsigned var_sign(void) {
+	return ( (_val>> 2)& 0x1);
     }
 
     void set (int s_var) {
 	_val = (s_var << 2);
     }
 
-    void set(int vid, int sign) { 
-	_val = (((vid<<1) + sign)<< 2); 
+    void set(int vid, int sign) {
+	_val = (((vid<<1) + sign)<< 2);
     }
 
     //followings are for manipulate watched literals
@@ -215,7 +215,7 @@ public:
 
     ClauseIdx get_clause_index(void) {
 	assert (_val <= 0);
-	return -_val; 
+	return -_val;
     }
 
     //misc functions
@@ -228,8 +228,8 @@ public:
     //every class should have a dump function and a self check function
     void dump(ostream & os= cout);
 
-    friend ostream & operator << ( ostream & os, CLitPoolElement & l) { 
-	l.dump(os); 
+    friend ostream & operator << ( ostream & os, CLitPoolElement & l) {
+	l.dump(os);
 	return os;
     }
 };
@@ -239,27 +239,27 @@ public:
 
   Synopsis    [Definition of a clause]
 
-  Description [A clause is consisted of a certain number of literals. 
+  Description [A clause is consisted of a certain number of literals.
                All literals are collected in a single large vector, called
 	       literal pool. Each clause has a pointer to the beginning position
-	       of it's literals in the pool. 
-	       
+	       of it's literals in the pool.
+
 	       Zchaff support incremental SAT. Clauses can be added or deleted
-	       from the database during search. To accomodate this feature, some 
+	       from the database during search. To accomodate this feature, some
 	       modifications are needed.
 
 	       Clauses can be generated during search by conflict driven analysis.
-	       Conflict clauses are generated by a resolution process. 
-	       Therefore, if after one search, some clauses got deleted, then 
+	       Conflict clauses are generated by a resolution process.
+	       Therefore, if after one search, some clauses got deleted, then
 	       some of the learned conflict clause may be invalidated. To maintain
 	       the integrity of the clause database, it is necessary to keep track
 	       of the clauses that are involved in the resolution process for a
 	       certain conflict clause so that when those clauses are deleted,
-	       the conflict clause should also be deleted. 
-	       
+	       the conflict clause should also be deleted.
+
 	       The scheme we implement is similar to the scheme described in:
-	       Ofer Strichman, Pruning techniques for the SAT-based Bounded Model 
-	       Checking Problems, in Proc. 11th Advanced Research Working Conference on 
+	       Ofer Strichman, Pruning techniques for the SAT-based Bounded Model
+	       Checking Problems, in Proc. 11th Advanced Research Working Conference on
 	       Correct Hardware Design and Verification Methods (CHARME'01)
 	       ]
 
@@ -311,19 +311,19 @@ public:
 	//}		// added by sang
 
     CLitPoolElement * literals(void) 	{ 	//literals()[i] is it's the i-th literal
-	return _first_lit; 
-    }	
+	return _first_lit;
+    }
 
     CLitPoolElement & literal(int idx) 	{ 	//return the idx-th literal
-	return *(_first_lit + idx); 
+	return *(_first_lit + idx);
     }
 
     CLitPoolElement * & first_lit(void) {	//use it only if you want to modify _first_lit
-	return _first_lit; 
+	return _first_lit;
     }
 
-    unsigned & num_lits(void) { 
-	return _num_lits; 
+    unsigned & num_lits(void) {
+	return _num_lits;
     }
 
     unsigned id(void) {
@@ -334,11 +334,11 @@ public:
 	_id = id;
     }
 
-    CLAUSE_STATUS status(void) { 
-	return _status; 
+    CLAUSE_STATUS status(void) {
+	return _status;
     }
 
-    void set_status(CLAUSE_STATUS st) { 
+    void set_status(CLAUSE_STATUS st) {
 	_status = st;
     }
 
@@ -365,10 +365,10 @@ public:
 //misc function
     bool self_check(void);
 
-    void dump(ostream & os = cout); 
+    void dump(ostream & os = cout);
 
-    friend ostream & operator << ( ostream & os, CClause & cl) { 
-	cl.dump(os); 
+    friend ostream & operator << ( ostream & os, CClause & cl) {
+	cl.dump(os);
 	return os;
     }
 };
@@ -383,7 +383,7 @@ public:
   SeeAlso     [CDatabase]
 
 ******************************************************************************/
-class CVariable 
+class CVariable
 {
 public:
 	double pos_weight;		// weight of positive form
@@ -393,12 +393,12 @@ public:
 
 protected:
     unsigned _value		: 2;	//it can take 3 values, 0, 1 and UNKNOWN
-						
+
     bool _marked		: 1;	//used in conflict analysis.
 	bool _tried_both;	// added by sang
 	bool _touched;		// added by sang
-    
-    unsigned _new_cl_phase	: 2;	//it can take 3 value 0: pos phase, 
+
+    unsigned _new_cl_phase	: 2;	//it can take 3 value 0: pos phase,
     //1: neg phase, UNKNOWN : not in new clause;
     //used to keep track of literals appearing
     //in newly added clause so that a. each
@@ -408,7 +408,7 @@ protected:
 
     int _implied_sign		: 1;	//when a var is implied, here is the sign (1->negative, 0->positive)
 
-    ClauseIdx _antecedent	;   	//used in conflict analysis. 
+    ClauseIdx _antecedent	;   	//used in conflict analysis.
 
     int _dlevel; 			//decision level this variable being assigned
 
@@ -428,7 +428,7 @@ protected:
 
 public:
 //constructors & destructors
-	int	largest_degree;		// added by sang	
+	int	largest_degree;		// added by sang
 	int largest_svar;		// added by sang
 	int _static_score;
 
@@ -448,23 +448,23 @@ public:
 	internal = false;
 	cross_flag = false;
 
-	_value = UNKNOWN; 
-	_antecedent=NULL_CLAUSE; 
+	_value = UNKNOWN;
+	_antecedent=NULL_CLAUSE;
 	_marked = false;
-	_dlevel = -1; 
+	_dlevel = -1;
 	_assgn_stack_pos = -1;
-	_new_cl_phase = UNKNOWN;	
+	_new_cl_phase = UNKNOWN;
 	_scores[0] = _scores[1] = 0;
 	_enable_branch = true;
     }
 //member access function
-    int & score(int i) 	{ 
-	return _scores[i]; 
+    int & score(int i) 	{
+	return _scores[i];
     }
 
-    int score(void)	{ 
+    int score(void)	{
 //	return 1;	//this will make a fixed order branch heuristic
-	// return score(0)>score(1)?score(0):score(1); 
+	// return score(0)>score(1)?score(0):score(1);
 	return score(0) + score(1);		// changed from max individual score to combined sum score
     }
 
@@ -480,14 +480,14 @@ public:
 	}
 
     int & var_score_pos(void) {
-	return _var_score_pos; 
+	return _var_score_pos;
     }
-    
+
     void set_var_score_pos(int pos) {
 	_var_score_pos = pos;
     }
 
-    unsigned value(void) { 
+    unsigned value(void) {
 	return _value;
     }
 
@@ -503,11 +503,11 @@ public:
 	}
 
 	void set_tried_both(bool t) {
-		_tried_both = t;	
+		_tried_both = t;
 	}
 
 	bool tried_both(void) {
-		return _tried_both;	
+		return _tried_both;
 	}
 
 	void touched(void) {
@@ -523,7 +523,7 @@ public:
 	}
 	// added by sang -- end
 
-    int & dlevel(void) { 
+    int & dlevel(void) {
 	return _dlevel;
     }
 
@@ -539,52 +539,52 @@ public:
 	return _assgn_stack_pos;
     }
 
-    int & lits_count(int i) { 
+    int & lits_count(int i) {
 	return _lits_count[i];
     }
 
-    bool is_marked(void) { 
-	return _marked; 
-    }    
-    
+    bool is_marked(void) {
+	return _marked;
+    }
+
     int get_implied_sign(void) {
 	return _implied_sign;
     }
-    
+
     void set_implied_sign(int sign) {
 	_implied_sign = sign;
     }
 
-    unsigned new_cl_phase(void) { 
-	return _new_cl_phase; 
-    } 
-
-    void set_new_cl_phase(unsigned phase) { 
-	_new_cl_phase = phase; 
+    unsigned new_cl_phase(void) {
+	return _new_cl_phase;
     }
 
-    void set_marked(void) { 
-	_marked = true; 
+    void set_new_cl_phase(unsigned phase) {
+	_new_cl_phase = phase;
     }
 
-    void clear_marked(void) { 
-	_marked = false; 
+    void set_marked(void) {
+	_marked = true;
     }
 
-    ClauseIdx & antecedent(void) { 
-	return _antecedent; 
+    void clear_marked(void) {
+	_marked = false;
     }
-    
-    ClauseIdx get_antecedent(void) { 
-	return _antecedent; 
+
+    ClauseIdx & antecedent(void) {
+	return _antecedent;
     }
-    
+
+    ClauseIdx get_antecedent(void) {
+	return _antecedent;
+    }
+
     void set_antecedent(ClauseIdx cl) {
 	_antecedent = cl;
     }
 
-    vector<CLitPoolElement *> & watched(int i) { 
-	return _watched[i]; 
+    vector<CLitPoolElement *> & watched(int i) {
+	return _watched[i];
     }
 
     void enable_branch(void) {
@@ -600,33 +600,19 @@ public:
     }
 #ifdef KEEP_LIT_CLAUSES
     vector<ClauseIdx> & lit_clause(int i) {
-	return _lit_clauses[i]; 
+	return _lit_clauses[i];
     }
-#endif    
+#endif
 
 //misc function
     bool self_check(void);
 
     void  dump(ostream & os=cout);
 
-    friend ostream & operator << ( ostream & os, CVariable & v) { 
-	v.dump(os); 
+    friend ostream & operator << ( ostream & os, CVariable & v) {
+	v.dump(os);
 	return os;
     }
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-

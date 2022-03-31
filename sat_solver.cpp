@@ -1,36 +1,36 @@
 /* =========FOR INTERNAL USE ONLY. NO DISTRIBUTION PLEASE ========== */
 
 /*********************************************************************
- Copyright 2000-2001, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2001, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
 
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark,  service mark, or the name of Princeton University. 
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark,  service mark, or the name of Princeton University.
 
 
- --- This software and any associated documentation is provided "as is" 
+ --- This software and any associated documentation is provided "as is"
 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -67,7 +67,7 @@ void read_cnf(SAT_Manager mng, char * filename )
     }
     while (inp.getline(line_buffer, MAX_LINE_LENGTH)) {
 	++ line_num;
-	if (line_buffer[0] == 'c') { 
+	if (line_buffer[0] == 'c') {
 	    if (beforeP)
 		{
 			int original_nodes;
@@ -81,7 +81,7 @@ void read_cnf(SAT_Manager mng, char * filename )
 				//cout << "got BN, " << original_nodes << " nodes" << endl;
 		}
 		else
-			continue; 
+			continue;
 	}
 	else if (line_buffer[0] == 'p') {
 		beforeP = false;
@@ -105,13 +105,13 @@ void read_cnf(SAT_Manager mng, char * filename )
 	    char *wp = word_buffer;
 
 		++lp;	// skip w and all spaces after it
-		while (*lp && ((*lp == ' ') || (*lp == '\t'))) 
+		while (*lp && ((*lp == ' ') || (*lp == '\t')))
 		{
 		    lp++;
 		}
 
 		// get the var_idx
-		while (*lp && (*lp != ' ') && (*lp != '\t') && (*lp != '\n')) 
+		while (*lp && (*lp != ' ') && (*lp != '\t') && (*lp != '\n'))
 		{
 		    *(wp++) = *(lp++);
 		}
@@ -120,14 +120,14 @@ void read_cnf(SAT_Manager mng, char * filename )
 		int var_idx = atoi (word_buffer);
 
 		// skip all spaces after var_idx
-		while (*lp && ((*lp == ' ') || (*lp == '\t'))) 
+		while (*lp && ((*lp == ' ') || (*lp == '\t')))
 		{
 		    lp++;
 		}
 
 		// get the weight
 		wp = word_buffer;
-		while (*lp && (*lp != ' ') && (*lp != '\t') && (*lp != '\n')) 
+		while (*lp && (*lp != ' ') && (*lp != '\t') && (*lp != '\n'))
 		{
 		    *(wp++) = *(lp++);
 		}
@@ -158,7 +158,7 @@ void read_cnf(SAT_Manager mng, char * filename )
 			if( var_idx < 0)  { var_idx = -var_idx; sign = 1; }
 			clause_vars.insert(var_idx);
 			clause_lits.insert( (var_idx << 1) + sign);
-		    } 	
+		    }
 		    else {
 			//add this clause
 			if (clause_vars.size() != 0 && (clause_vars.size() == clause_lits.size())) { //yeah, can add this clause
@@ -177,7 +177,7 @@ void read_cnf(SAT_Manager mng, char * filename )
 						cout << "sorted" << endl;
 					}*/	// removed, because literals(svar) are already sorted in set
 				}
-				
+
 			    SAT_AddClause(mng, & temp.begin()[0], temp.size() );
 			}
 			else {} //it contain var of both polarity, so is automatically satisfied, just skip it
@@ -217,7 +217,7 @@ void handle_result(SAT_Manager mng, int outcome, char * filename, bool quiet)
 //following lines will print out a solution if a solution exist
 	/* for (int i=1, sz = SAT_NumVariables(mng); i<= sz; ++i) {
 	    switch(SAT_GetVarAsgnment(mng, i)) {
-	    case -1:	
+	    case -1:
 		cout <<"("<< i<<")"; break;
 	    case 0:
 		cout << "-" << i; break;
@@ -238,19 +238,19 @@ void handle_result(SAT_Manager mng, int outcome, char * filename, bool quiet)
 	//cout << "Instance unsatisfiable" << endl << endl;
 	break;
     case TIME_OUT:
-	result  = "ABORT : TIME OUT"; 
+	result  = "ABORT : TIME OUT";
 	cout << "Time out, unable to determing the satisfiablility of the instance";
 	cout << endl;
 	break;
     case MEM_OUT:
-	result  = "ABORT : MEM OUT"; 
+	result  = "ABORT : MEM OUT";
 	cout << "Memory out, unable to determing the satisfiablility of the instance";
 	cout << endl;
 	break;
     default:
 	cerr << "Unknown outcome" << endl;
 	exit (5);
-    }	
+    }
     if (!quiet)
 	{
     cout << "Number of Decisions\t\t\t" << SAT_NumDecisions(mng)<< endl;	// order changed
@@ -269,14 +269,14 @@ void handle_result(SAT_Manager mng, int outcome, char * filename, bool quiet)
 //    cout << "RESULT:\t" << filename << " " << result << " RunTime: " << SAT_GetCPUTime(mng)<< endl;
 	//if (result  == "UNSAT")
 	//	cout  << "UNSAT" << endl;
-	//else 
+	//else
 	if (SAT_GMP(mng))
 		{
 			long double solutions = SAT_NumSolutions(mng);
 			if (solutions > 1000000 && !quiet)
 				cout << "In scientific number form\t\t" << solutions << endl;
 		}
-	else 
+	else
 	{
 		if (!quiet)
 			cout << "Satisfying probability\t\t\t" << SAT_SatProb(mng) << endl;
@@ -302,7 +302,7 @@ void output_status(SAT_Manager mng)
 void verify_solution(SAT_Manager mng)
 {
     int num_verified = 0;
-    for ( int cl_idx = SAT_GetFirstClause (mng); cl_idx >= 0; 
+    for ( int cl_idx = SAT_GetFirstClause (mng); cl_idx >= 0;
 	  cl_idx = SAT_GetNextClause(mng, cl_idx)) {
 	int len = SAT_GetClauseNumLits(mng, cl_idx);
 	int * lits = new int[len+1];
@@ -334,16 +334,16 @@ int main(int argc, char ** argv)
 	cout << "cachet version 1.21, December 2005" << endl
 		 << "copyright 2005, University of Washington" << endl
 		 << "incorporating code from zchaff, copyright 2004, Princeton University" << endl
-		 << "Usage: "<< argv[0] << " cnf_file [-t time_limit]" 
-		 << " [-c cache_size]" 
-		 << " [-o oldest_cache_entry]" 
-		 << " [-l cache_clean_limit]" 
+		 << "Usage: "<< argv[0] << " cnf_file [-t time_limit]"
+		 << " [-c cache_size]"
+		 << " [-o oldest_cache_entry]"
+		 << " [-l cache_clean_limit]"
 		 << " [-h heuristic_selection]"
 		 << " [-b backtrack_factor]"
 		 << " [-f far_backtrack_enabled]"
 		 //<< " [-r cross_implication_off] "
 		 << " [-a adjusting_component_ordering_off] "
-		 << " [-n max_num_learned_clause] " 
+		 << " [-n max_num_learned_clause] "
 		 << " [-q quiet] " << endl;
 	return 2;
     }

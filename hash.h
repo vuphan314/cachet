@@ -9,7 +9,7 @@
 
 #include "zchaff_header.h"
 #include "zchaff_base.h"
-		
+
 class CHashTable {
 public:
 	vector<Component_value_pair *> hash_table;
@@ -69,7 +69,7 @@ public:
 
 	CHashTable(void) {
 	}
-	CHashTable(unsigned size, unsigned maximum_entry, unsigned oldest_entry, unsigned limit_clean) 
+	CHashTable(unsigned size, unsigned maximum_entry, unsigned oldest_entry, unsigned limit_clean)
 	{
 		num_literals = 0;
 		mem_usage = 0;
@@ -93,15 +93,15 @@ public:
 		//if (oldest != max_entry)
 		//	clean_limit = 20 * oldest_entry;
 		hash_table.resize(size);	// allocate meomry for hashtable entries only
-		
+
 		//const double megabyte = 1024 * 1024;
 		/* Obtain system statistics. */
 		//struct sysinfo si;
 		//sysinfo (&si);
-		//cout << "total RAM = " <<  si.totalram << ", free RAM = " << si.freeram 
+		//cout << "total RAM = " <<  si.totalram << ", free RAM = " << si.freeram
 		//	 << ", buffered RAM = " <<  si.bufferram << endl; //<< ", shared RAM = " << si.sharedram << endl;
 	 }
-	
+
 	~CHashTable() {
 		while (!hash_table.empty()) {
 			delete hash_table.back();

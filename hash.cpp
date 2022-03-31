@@ -42,7 +42,7 @@ bool CHashTable::set_hash_table_entry(unsigned hash_index, Component_value_pair 
 		int removed = clean_cache();
 		//if (!quiet)
 		//	cout << removed << " cache entries removed by cleaning cache"
-		//		 << ", removed entries = " << num_removed_entries << endl; 
+		//		 << ", removed entries = " << num_removed_entries << endl;
 		oldest = temp;	// restore oldest
 	}
 	return true;
@@ -89,7 +89,7 @@ bool CHashTable::in_hash_table(formula & f, unsigned & hash_index, long double &
 	{
 		// if the current is not empty, check the content of it
 		if (compare_formula(f, current->f))
-		{	
+		{
 #ifdef BIG_NUM
 			mpz_set(value.numerator, current->value.numerator);
 			value.denominator = current->value.denominator;
@@ -148,18 +148,18 @@ bool CHashTable::in_hash_table(formula & f, unsigned & hash_index, long double &
 		//if (result)
 		//	break;
 		previous = current;
-		current = current->next;	
+		current = current->next;
 		// if the entry is not empty, do a linear probe in the chain
 		++num_collisions;	// a collision found
-	}	// end while	
+	}	// end while
 	return result;
 }
 #else // APPROXIMATE_HASHING defined
 #ifdef BIG_NUM
-bool CHashTable::in_hash_table(formula & f, unsigned & hash_index, 
+bool CHashTable::in_hash_table(formula & f, unsigned & hash_index,
 							   unsigned long & secondary_index, BigNum & value)
 #else
-bool CHashTable::in_hash_table(formula & f, unsigned & hash_index, 
+bool CHashTable::in_hash_table(formula & f, unsigned & hash_index,
 							   unsigned long & secondary_index, long double & value)
 #endif
 {
@@ -200,7 +200,7 @@ bool CHashTable::in_hash_table(formula & f, unsigned & hash_index,
 	}
 	CALC_CRC32(second_crc, -1);			// terminating symbol
 	CALC_CRC32(second_crc,literal_num);	// use literal_num as checksum
-	
+
 
 	hash_index = crc % hashtable_size;
 	secondary_index = second_crc;
@@ -214,7 +214,7 @@ bool CHashTable::in_hash_table(formula & f, unsigned & hash_index,
 		// if the current is not empty, check the content of it
 		// if (compare_formula(f, current->f))
 		if (current->secondary_index == secondary_index)	// check if two formulas equal
-		{			
+		{
 #ifdef BIG_NUM
 			mpz_set(value.numerator, current->value.numerator);
 			value.denominator = current->value.denominator;
@@ -263,10 +263,10 @@ bool CHashTable::in_hash_table(formula & f, unsigned & hash_index,
 			break;
 		}	//	end if
 		previous = current;
-		current = current->next;	
+		current = current->next;
 		// if the entry is not empty, do a linear probe in the chain
 		++num_collisions;	// a collision found
-	}	// end while	
+	}	// end while
 	return result;
 }
 #endif // end ifndef APPROXIMATE_HASHING
@@ -275,7 +275,7 @@ bool CHashTable::in_hash_table(formula & f, unsigned & hash_index,
 bool CHashTable::compare_formula(formula & fa, formula & fb)
 {
 // check if two formulas are indentical
-	if (fa.size() != fb.size()) 
+	if (fa.size() != fb.size())
 		return false;
 	for (unsigned i = 0; i < fa.size(); ++i)
 	{
@@ -325,7 +325,7 @@ bool CHashTable::less_than(vector<int> & first, vector<int> & second)
 	int s_size = second.size();
 	int size = f_size < s_size ? f_size : s_size; // size is the smaller one
 	int pos = 0;
-	
+
 	while(pos < size && first[pos] == second[pos])
 		++pos;
 	if (pos < size)
@@ -377,14 +377,14 @@ void CHashTable::quicksort(formula & f, int left, int right)
 	}
 
 	int center = (left + right) / 2;
-	//cout << "sorting left: " << left 
-	//	 << ", right: " << right 
+	//cout << "sorting left: " << left
+	//	 << ", right: " << right
 	//	 << ", center: " << center << endl;
 	//cout << "before median3: " << endl;
 	//print_formula(f);
 
 	// median3 procedure begin, set the pivot to be the median of left, center, and right
-	
+
 	if (less_than(* f[center], * f[left]))
 		swap_references(f[center], f[left]);
 	if (less_than(* f[right], * f[left]))
@@ -400,12 +400,12 @@ void CHashTable::quicksort(formula & f, int left, int right)
 
 	int i = left;
 	int j = right -1;
-	
+
 	while(true)
 	{
 		while (less_than(* f[++i], * f[pivot]));
-		while (less_than(* f[pivot], * f[--j])); 
-		if (i < j) 
+		while (less_than(* f[pivot], * f[--j]));
+		if (i < j)
 			swap_references(f[i], f[j]);
 		else break;
 	}
@@ -478,7 +478,7 @@ int CHashTable::clean_cache()
 
 				while (current)
 				{
-					previous = current;					
+					previous = current;
 					current = current->next;
 					//formula & f = previous->f;
 					//while (!f.empty())
@@ -519,7 +519,7 @@ bool CHashTable::removeChildren(child_to_remove & child) // remove all children 
 	vector<child_to_remove *> entry_to_remove_stack;
 	child_to_remove * top_child;
 	Component_value_pair * current, * previous;
-	
+
 	entry_to_remove_stack.push_back(& child);
 
 	while(!entry_to_remove_stack.empty())
@@ -560,7 +560,7 @@ bool CHashTable::removeChildren(child_to_remove & child) // remove all children 
 			delete current;
 			//cout << "delete current done" << endl;
 			++num_removed_entries;
-		}			
+		}
 		else // more than one entry, need to probe
 		{
 			previous = current;
@@ -596,14 +596,3 @@ bool CHashTable::removeChildren(child_to_remove & child) // remove all children 
 	}	// end while (!entry_to_remove_stack.empty())
 	return true;
 }
-
-
-
-
-
-
-
-
-
-
-

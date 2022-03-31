@@ -1,34 +1,34 @@
 /*********************************************************************
- Copyright 2000-2001, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2001, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
 
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark,  service mark, or the name of Princeton University. 
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark,  service mark, or the name of Princeton University.
 
 
- --- This software and any associated documentation is provided "as is" 
+ --- This software and any associated documentation is provided "as is"
 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -102,7 +102,7 @@ struct CSolverParameters {
 
     struct {
 	int	strategy;
-	int	restart_randomness;	
+	int	restart_randomness;
 	int	base_randomness;
 	int	bubble_init_step;
 	int	decay_period;
@@ -131,7 +131,7 @@ struct CSolverParameters {
     struct {
 	bool	enable;
 	int 	first_restart;
-	int 	backtrack_incr;		
+	int 	backtrack_incr;
 	int	backtrack_incr_incr;
     } restart;
 };
@@ -146,11 +146,11 @@ struct CSolverParameters {
 ******************************************************************************/
 struct CSolverStats {
     bool	been_reset;		//when delete clause in incremental solving, must reset.
-    bool 	is_solver_started;	
+    bool 	is_solver_started;
     int 	outcome;
     bool	is_mem_out;		//this flag will be set if memory out
 
-    double 	start_cpu_time;    	
+    double 	start_cpu_time;
     double 	finish_cpu_time;
 
     int		current_randomness;
@@ -198,9 +198,9 @@ struct CSolverStats {
   SeeAlso     []
 
 ******************************************************************************/
-inline bool cmp_var_stat(const pair<CVariable *,int> & v1, 
-			    const pair<CVariable *,int> & v2) 
-{	
+inline bool cmp_var_stat(const pair<CVariable *,int> & v1,
+			    const pair<CVariable *,int> & v2)
+{
     if (v1.second >= v2.second) return true;
     return false;
 };
@@ -212,7 +212,7 @@ struct cmp_var_assgn_pos {
 		return true;
 	    else if (v1->dlevel() < v2->dlevel())
 		return false;
-	    else if (v1->assgn_stack_pos() > v2->assgn_stack_pos()) 
+	    else if (v1->assgn_stack_pos() > v2->assgn_stack_pos())
 		return true;
 	    return false;
 	}
@@ -225,14 +225,14 @@ struct CImplication
     int dlevel;
 };
 
-struct  ImplicationQueue:queue<CImplication> 
+struct  ImplicationQueue:queue<CImplication>
 {
     void dump(ostream & os) {
 	queue<CImplication> temp(*this); //have to make a copy, since queue can only be accessed destructively
 	os << "Implication Queue Previous: " ;
 	while(!temp.empty()) {
 	    CImplication a = temp.front();
-	    os << "(" << ((a.lit&1)?"-":"+") << (a.lit>>1) 
+	    os << "(" << ((a.lit&1)?"-":"+") << (a.lit>>1)
 	       << "@" << a.dlevel << ":" << a.antecedent << ")  ";
 	    temp.pop();
 	}
@@ -251,7 +251,7 @@ struct Hashindex
 
 struct Component_item
 {
-	Component_value_pair * comp_val_pair; 
+	Component_value_pair * comp_val_pair;
 	int	index;		// index to the gloabal structure: vector<Component_information>
 };
 typedef list<Component_item *> Components;	// list of pointers to components, main structure at each level
@@ -263,8 +263,8 @@ struct Component_information
 	Components::iterator comp_itr;	//	pointer to the component associated with this information struct
 	int num_clause;					//	number of clauses of the component
 	int num_cross_implications;		//	#cross_implications that have changed this component
-	double cross_implication_weight;//	the multiplication of weight of all cross-implications refering to this component 
-	unsigned ancestor_index;		//	index to the Component_information struct of the component, which generates 
+	double cross_implication_weight;//	the multiplication of weight of all cross-implications refering to this component
+	unsigned ancestor_index;		//	index to the Component_information struct of the component, which generates
 									//	the first appearance of this component
 	int level;						//	the level where this component is created
 	bool active;					//	if this component is active
@@ -348,7 +348,7 @@ protected:
 	CHashTable *	hashtable;						// added by sang
     int				_id;							//the id of the solver, in case we need to distinguish
     bool			_force_terminate;				//forced to time out by outside caller
-    CSolverParameters 		_params;				//parameters for the solver 
+    CSolverParameters 		_params;				//parameters for the solver
     CSolverStats     		_stats;					//statistics and states of the current run
 
     int 			_dlevel;						//current decision elvel
@@ -378,7 +378,7 @@ protected:
     vector<vector<int> *> 	_assignment_stack;
     long64			_implication_id;
     ImplicationQueue		_implication_queue;
-    
+
     vector<pair<int,pair< HookFunPtrT, int> > > _hooks;	//hook function run after certain number of decisions
     OutsideConstraintHookPtrT	_outside_constraint_hook;
 
@@ -393,12 +393,12 @@ protected:
 #else
 	int percolate_up(long double, int);
 #endif
-	//int remove_cached_components(Components &);	
+	//int remove_cached_components(Components &);
 // int to_components(formula &);	// divide the formula into components, return number of components
 
 //these are for decision making
     int				_max_score_pos;		//index the unassigned var with max score
-    vector<pair<CVariable*,int> >_ordered_vars;		//pair's first pointing to the var, second is the score. 
+    vector<pair<CVariable*,int> >_ordered_vars;		//pair's first pointing to the var, second is the score.
 	vector<vector<int> *>	_non_active_free_var_stack;	// added by sang
 	bool	is_active(int);		// check if a var is active in the residual formula, added by sang
 	void dump_non_active_free_var_stack(void);
@@ -407,14 +407,14 @@ protected:
 //these are for conflict analysis
     int 		_num_marked;		//used when constructing learned clauses
     int 		_num_in_new_cl;		//used when constructing learned clauses
-    vector<ClauseIdx> 	_conflicts;		//the conflicting clauses		       
+    vector<ClauseIdx> 	_conflicts;		//the conflicting clauses
     vector<int> 	_conflict_lits; 	//used when constructing learned clause
     vector<int> 	_resolvents;
 protected:
     void re_init_stats(void);
     void init_stats(void);
     void init_parameters(void);
-    void init_solve(void);			
+    void init_solve(void);
     void real_solve(void);
     void restart (void);
     int preprocess(void);
@@ -462,7 +462,7 @@ protected:
     bool is_uip_reached(set<CVariable *, cmp_var_assgn_pos> & conf_lits);
     int conflict_analysis_firstUIP_resolve_based(void);
 
-//for bcp 
+//for bcp
     void set_var_value(int var, int value, ClauseIdx ante, int dl);
     void set_var_value_not_current_dl(int v, int value);
     void set_var_value_current_dl(int v, int value);
@@ -484,17 +484,17 @@ public:
 	unsigned		clean_limit;					// if > limit, clean_cache will be triggered
 	unsigned		max_distance;					// added by sang
 	//bool			dynamic_heuristic;				// true means dynamic largest degree, false means static
-	HEURISTICS		dynamic_heuristic;				
+	HEURISTICS		dynamic_heuristic;
 	bool			approximation;					// if true, use approximate hash
 	bool			quiet;
 	unsigned		max_num_learned_clause;			// for shutting down clause-learning
 
 //member access function
-    void set_time_limit(float t); 
+    void set_time_limit(float t);
     void set_mem_limit(int s);
     void set_decision_strategy(int s) ;
-    void set_preprocess_strategy(int s); 
-    void enable_cls_deletion(bool allow); 
+    void set_preprocess_strategy(int s);
+    void enable_cls_deletion(bool allow);
     void set_cls_del_interval(int n);
     void set_max_unrelevance(int n );
     void set_min_num_clause_lits_for_delete(int n) ;
@@ -539,12 +539,12 @@ public:
     long64 total_bubble_move() 	{ return _stats.total_bubble_move; }
 	long double satisfying_prob() {return _stats.sat_prob; }
 #ifdef BIG_NUM
-	long double num_solutions() 
+	long double num_solutions()
 	{
 		cout << "Number of solutions ";
 		mpz_out_str (stdout, 10, _stats.num_solutions);
 		cout << endl;
-		return mpz_get_d(_stats.num_solutions); 
+		return mpz_get_d(_stats.num_solutions);
 	}
 	bool gmp() {return true;}
 #else
@@ -553,11 +553,11 @@ public:
 #endif
 
     char * version(void)	{ return __ZCHAFF_VERSION__; }
-    
+
     double elapsed_cpu_time();// changed from float to double
     double cpu_run_time() ;	// changed from float to double
     int estimate_mem_usage() {	return CDatabase::estimate_mem_usage(); }
-    int mem_usage(void); 
+    int mem_usage(void);
 
     void queue_implication (int lit, ClauseIdx ante_clause, int dlevel) {
 	DBG1 (cout << "\t\t\t\t\t\tQueueing " << (lit&0x01?" -":" +") << (lit>>1) ;

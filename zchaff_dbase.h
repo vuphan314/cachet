@@ -1,34 +1,34 @@
 /*********************************************************************
- Copyright 2000-2003, Princeton University.  All rights reserved. 
- By using this software the USER indicates that he or she has read, 
+ Copyright 2000-2003, Princeton University.  All rights reserved.
+ By using this software the USER indicates that he or she has read,
  understood and will comply with the following:
 
- --- Princeton University hereby grants USER nonexclusive permission 
+ --- Princeton University hereby grants USER nonexclusive permission
  to use, copy and/or modify this software for internal, noncommercial,
- research purposes only. Any distribution, including commercial sale 
- or license, of this software, copies of the software, its associated 
- documentation and/or modifications of either is strictly prohibited 
+ research purposes only. Any distribution, including commercial sale
+ or license, of this software, copies of the software, its associated
+ documentation and/or modifications of either is strictly prohibited
  without the prior consent of Princeton University.  Title to copyright
- to this software and its associated documentation shall at all times 
- remain with Princeton University.  Appropriate copyright notice shall 
- be placed on all software copies, and a complete copy of this notice 
- shall be included in all copies of the associated documentation.  
- No right is  granted to use in advertising, publicity or otherwise 
- any trademark,  service mark, or the name of Princeton University. 
+ to this software and its associated documentation shall at all times
+ remain with Princeton University.  Appropriate copyright notice shall
+ be placed on all software copies, and a complete copy of this notice
+ shall be included in all copies of the associated documentation.
+ No right is  granted to use in advertising, publicity or otherwise
+ any trademark,  service mark, or the name of Princeton University.
 
 
- --- This software and any associated documentation is provided "as is" 
+ --- This software and any associated documentation is provided "as is"
 
- PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS 
- OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A 
- PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR 
- ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS, 
- TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.  
+ PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS
+ OR IMPLIED, INCLUDING THOSE OF MERCHANTABILITY OR FITNESS FOR A
+ PARTICULAR PURPOSE, OR THAT  USE OF THE SOFTWARE, MODIFICATIONS, OR
+ ASSOCIATED DOCUMENTATION WILL NOT INFRINGE ANY PATENTS, COPYRIGHTS,
+ TRADEMARKS OR OTHER INTELLECTUAL PROPERTY RIGHTS OF A THIRD PARTY.
 
- Princeton University shall not be liable under any circumstances for 
- any direct, indirect, special, incidental, or consequential damages 
- with respect to any claim by USER or any third party on account of 
- or arising from the use, or inability to use, this software or its 
+ Princeton University shall not be liable under any circumstances for
+ any direct, indirect, special, incidental, or consequential damages
+ with respect to any claim by USER or any third party on account of
+ or arising from the use, or inability to use, this software or its
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
@@ -84,7 +84,7 @@ struct CDatabaseParams {
 
   Synopsis    [Definition of clause database ]
 
-  Description [Clause Database is the place where the information of the 
+  Description [Clause Database is the place where the information of the
                SAT problem are stored. it is a parent class of CSolver ]
 
   SeeAlso     [CSolver]
@@ -109,7 +109,7 @@ protected:
 
     vector<CClause> 	_clauses;
 
-    queue<ClauseIdx> 	_unused_clause_idx;	
+    queue<ClauseIdx> 	_unused_clause_idx;
 
 protected:
 //constructors & destructors
@@ -137,7 +137,7 @@ protected:
 
     void lit_pool_incr_size( int size) ;
 
-    void lit_pool_push_back(int value) ; 
+    void lit_pool_push_back(int value) ;
 
     int lit_pool_size(void) ;
 
@@ -154,14 +154,14 @@ protected:
 
     void compact_lit_pool(void);	//garbage collection
 
-    unsigned literal_value (CLitPoolElement l) { //note: it will return 0 or 1 or other , 
+    unsigned literal_value (CLitPoolElement l) { //note: it will return 0 or 1 or other ,
 	                                         //here "other" may not equal UNKNOWN
-	return (variable(l.var_index()).value() ^ l.var_sign()); 
+	return (variable(l.var_index()).value() ^ l.var_sign());
     }
 
-    unsigned svar_value (int svar) {		//note: it will return 0 or 1 or other , 
+    unsigned svar_value (int svar) {		//note: it will return 0 or 1 or other ,
 	                                         //here "other" may not equal UNKNOWN
-	return (variable(svar>>1).value() ^ (svar&0x1)); 
+	return (variable(svar>>1).value() ^ (svar&0x1));
     }
 //clause properties
     void mark_clause_deleted(CClause & cl);
@@ -181,20 +181,20 @@ protected:
 
 public:
 //member access function
-    vector<CVariable>& variables(void) { 
-	return _variables; 
+    vector<CVariable>& variables(void) {
+	return _variables;
     }
 
-    CVariable & variable(int idx) { 
-	return _variables[idx]; 
+    CVariable & variable(int idx) {
+	return _variables[idx];
     }
 
-    vector<CClause>& clauses(void) { 
-	return _clauses; 
+    vector<CClause>& clauses(void) {
+	return _clauses;
     }
 
-    CClause & clause(ClauseIdx idx) { 
-	return _clauses[idx]; 
+    CClause & clause(ClauseIdx idx) {
+	return _clauses[idx];
     }
 
     CDatabaseStats & stats(void) {
@@ -206,7 +206,7 @@ public:
     }
 
 //clause group management
-    int alloc_gid (void); 
+    int alloc_gid (void);
 
     void free_gid (int gid);
 
@@ -243,13 +243,13 @@ public:
 
     unsigned num_mem_enlarges(void) 	{ return _stats.num_enlarge; }
 
-//functions 
+//functions
     unsigned estimate_mem_usage (void);
 
     unsigned mem_usage(void) ;
 
-    void set_variable_number(int n) { 
-	variables().resize(n + 1) ; 
+    void set_variable_number(int n) {
+	variables().resize(n + 1) ;
     }
     int add_variable(void) {
 	variables().resize( variables().size() + 1);
@@ -260,8 +260,8 @@ public:
 
     void dump(ostream & os = cout);
 
-    friend ostream & operator << ( ostream & os, CDatabase & db) { 
-	db.dump(os); 
+    friend ostream & operator << ( ostream & os, CDatabase & db) {
+	db.dump(os);
 	return os;
     }
 };

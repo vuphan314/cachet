@@ -8,7 +8,7 @@ void BigNum::add(BigNum & r, BigNum & x, BigNum & y)	// result of x + y will be 
 	{
 		r.denominator = x.denominator;
 		mpz_mul_2exp(y.numerator, y.numerator, x.denominator - y.denominator);
-		
+
 	}
 	else
 	{
@@ -26,16 +26,16 @@ void BigNum::add(BigNum & r, BigNum & x, BigNum & y)	// result of x + y will be 
 		mpz_tdiv_q_2exp(r.numerator, r.numerator, index);
 		r.denominator = r.denominator - index;
 	}
-	
+
 	return;
 }
 
 void BigNum::mul(BigNum & r, BigNum & x, BigNum & y)	// result of x * y will be stored in x, r is unused
 {
-	/*cout << "x.numerator = "; 
+	/*cout << "x.numerator = ";
 	mpz_out_str(stdout, 10, x.numerator);
-	cout << ", y.numerator = "; 
-	mpz_out_str(stdout, 10, y.numerator); 
+	cout << ", y.numerator = ";
+	mpz_out_str(stdout, 10, y.numerator);
 	cout << endl;
 	cout << "x.denominator = " << x.denominator;
 	cout << ", y.denominator = " << y.denominator << endl;
@@ -54,7 +54,7 @@ void BigNum::mul(BigNum & r, BigNum & x, BigNum & y)	// result of x * y will be 
 	//r.zero_flag = false;	// any result should be > 0
 	x.zero_flag = false;	// any result should be > 0
 
-	/*cout << "r.numerator = "; 
+	/*cout << "r.numerator = ";
 	mpz_out_str(stdout, 10, r.numerator);
 	cout << ", r.denominator = " << r.denominator << endl;
 
@@ -72,7 +72,7 @@ void BigNum::mul(BigNum & r, BigNum & x, BigNum & y)	// result of x * y will be 
 /*int main(int argc, char** argv)
 {
 	BigNum a;
-	BigNum b(3, 4, false); 
+	BigNum b(3, 4, false);
 	BigNum c(2, 3, false);
 
 	mpz_set(b.numerator, c.numerator);
@@ -123,5 +123,3 @@ void BigNum::mul(BigNum & r, BigNum & x, BigNum & y)	// result of x * y will be 
 	*/
 	//return 0;
 //}
-
-

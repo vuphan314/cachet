@@ -42,5 +42,3 @@ public:
 	static void add(BigNum & r, BigNum & x, BigNum & y);
 	static void mul(BigNum & r, BigNum & x, BigNum & y);
 };
-
-
