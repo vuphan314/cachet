@@ -94,7 +94,7 @@ void read_cnf(SAT_Manager mng, char * filename) {
             SAT_SetNumVariables(mng, var_num); // first element not used.
             var_weight.resize(var_num + 1); // for weighted counting
             for (int i = 1; i < var_weight.size(); ++i) // all weight 0.5 by default
-                var_weight[i] = 0.5;
+                var_weight[i] = -1.0;
         }
         else if (line_buffer[0] == 'w') { // added by Sang
             char * lp = line_buffer;
