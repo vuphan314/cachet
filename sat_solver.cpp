@@ -34,14 +34,12 @@
  associated documentation, even if Princeton University has been advised
  of the possibility of those damages.
 *********************************************************************/
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <cstdio>
-#include <set>
-#include <vector>
 
-#include <string.h>
+#include <cassert>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+
 #include "SAT.h"
 
 using namespace std;
@@ -78,23 +76,38 @@ void read_cnf(SAT_Manager mng, char * filename) {
                     SAT_SetBNNodes(mng, original_nodes);
                 // cout << "got BN, " << original_nodes << " nodes" << endl;
             }
-            else
-                continue;
+            else { // may be weight line in Model Counting Competition 2021 // added by Vu Phan
+                int literal;
+                double weight;
+                int args = sscanf(line_buffer, "c p weight %d %lf", &literal, &weight);
+                if (args == 2) {
+                    assert(literal != 0);
+                    assert(weight > 0 && weight <= 1);
+                    if (weight < 1) { // non-default weight
+                        if (literal > 0) {
+                            var_weight[literal] = weight;
+                        }
+                        else {
+                            var_weight[abs(literal)] = 1.0l - weight;
+                        }
+                    }
+                }
+            }
         }
         else if (line_buffer[0] == 'p') {
             beforeP = false;
             int var_num;
             int cl_num;
 
-            int arg = sscanf(line_buffer, "p cnf %d %d", &var_num, &cl_num);
-            if (arg < 2) {
+            int args = sscanf(line_buffer, "p cnf %d %d", &var_num, &cl_num);
+            if (args < 2) {
                 cerr << "unable to read number of variables and clauses at line " << line_num << endl;
                 exit(3);
             }
             SAT_SetNumVariables(mng, var_num); // first element not used.
             var_weight.resize(var_num + 1); // for weighted counting
-            for (int i = 1; i < var_weight.size(); ++i) // all weight 0.5 by default
-                var_weight[i] = -1.0;
+            for (int i = 1; i < var_weight.size(); ++i) // all literal weights are 1.0 by default
+                var_weight[i] = -1.0l; // -1 means both x and -x have weight 1
         }
         else if (line_buffer[0] == 'w') { // added by Sang
             char * lp = line_buffer;
@@ -110,7 +123,7 @@ void read_cnf(SAT_Manager mng, char * filename) {
                 *(wp++) = *(lp++);
             }
             *wp = '\0'; // terminate string
-            // assert (strlen(word_buffer) != 0);
+            // assert(strlen(word_buffer) != 0);
             int var_idx = atoi(word_buffer);
 
             // skip all spaces after var_idx
@@ -124,7 +137,7 @@ void read_cnf(SAT_Manager mng, char * filename) {
                 *(wp++) = *(lp++);
             }
             *wp = '\0'; // terminate string
-            // assert (strlen(word_buffer) != 0);
+            // assert(strlen(word_buffer) != 0);
             double weight = atof(word_buffer);
 
             // set the weight of var_idx
@@ -185,7 +198,7 @@ void read_cnf(SAT_Manager mng, char * filename) {
         cerr << "input line " << line_num <<  " too long. Unable to continue..." << endl;
         exit(2);
     }
-    // assert (clause_vars.size() == 0); // some benchmark has no 0 in the last clause
+    // assert(clause_vars.size() == 0); // some benchmark has no 0 in the last clause
     if (clause_lits.size() && clause_vars.size() == clause_lits.size()) {
         vector <int> temp;
         for (set<int>::iterator itr = clause_lits.begin(); itr != clause_lits.end(); ++itr)

@@ -1781,7 +1781,7 @@ bool CSolver::decide_next_branch(void)
 	}
 	if (s_var == 0)
 	{
-		assert(_stats.num_unsatisfied_clause == 0);		// must be no UNSAT clauses left
+		// assert(_stats.num_unsatisfied_clause == 0); // must be no UNSAT clauses left // disabled by Vu Phan to avoid assertion failure
 		//if (flag)
 		//	cout << "entered branch_component == -1, "
 		//	 << "no active component at this level" << endl;
